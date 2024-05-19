@@ -1,70 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progetto Computer Graphics</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <header>
-        <h1>Progetto Computer Graphics</h1>
-    </header>
-    <div class="container">
-        <div class="canvas-container">
-            <canvas id="canvas"></canvas>
-            <!-- vertex shader -->
-            <script  id="vertex-shader-3d" type="x-shader/x-vertex">
-              attribute vec4 a_position;
-              varying vec4 v_position;
-              void main() {
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Progetto Computer Graphics</title>
+        <link rel="stylesheet" href="index.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body>
+        <header>
+            <h1>Progetto Computer Graphics</h1>
+        </header>
+        <div class="flex flex-1 flex-col">
+            <div class="flex flex-1 md:flex-row justify-center w-full flex-col">
+                <div style="flex: 1 0 75%" class="flex w-full"> 
+                    <canvas id="canvas" id="canvasContainer" class="flex flex-1 rounded-lg"></canvas>
+                </div>
+                <div class="menu">
+                    <h2>Impostazioni</h2>
+                    <div class="input-group">
+                        <label for="objectType">Tipo di oggetto:</label>
+                        <select id="objectType">
+                            <option value="cube">Cubo</option>
+                            <option value="sphere">Sfera</option>
+                            <option value="cylinder">Cilindro</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="color">Colore:</label>
+                        <input type="color" id="color" value="#ff0000">
+                    </div>
+                    <div class="input-group">
+                        <label for="size">Dimensione:</label>
+                        <input type="range" id="size" min="1" max="100" value="50">
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <footer>
+            <p>Realizzato da Andrea Napoli</p>
+        </footer>
+        <!-- SHADERS BOX -->
+        <script id="vertex-shader-3d" type="x-shader/x-vertex">
+            attribute vec4 a_position;
+            varying vec4 v_position;
+            void main() {
                 v_position = a_position;
                 gl_Position = a_position;
                 gl_Position.z = 1.0;
-              }
-              </script>
-              <!-- fragment shader -->
-              <script  id="fragment-shader-3d" type="x-shader/x-fragment">
-              precision mediump float;
-              
-              uniform samplerCube u_skybox;
-              uniform mat4 u_viewDirectionProjectionInverse;
-              
-              varying vec4 v_position;
-              void main() {
+            }
+        </script>
+        <script id="fragment-shader-3d" type="x-shader/x-fragment">
+            precision mediump float;
+            
+            uniform samplerCube u_skybox;
+            uniform mat4 u_viewDirectionProjectionInverse;
+            
+            varying vec4 v_position;
+            void main() {
                 vec4 t = u_viewDirectionProjectionInverse * v_position;
                 gl_FragColor = textureCube(u_skybox, normalize(t.xyz / t.w));
-              }
-              </script>
-        </div>
-        <div class="menu">
-            <h2>Impostazioni</h2>
-            <div class="input-group">
-                <label for="objectType">Tipo di oggetto:</label>
-                <select id="objectType">
-                    <option value="cube">Cubo</option>
-                    <option value="sphere">Sfera</option>
-                    <option value="cylinder">Cilindro</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="color">Colore:</label>
-                <input type="color" id="color" value="#ff0000">
-            </div>
-            <div class="input-group">
-                <label for="size">Dimensione:</label>
-                <input type="range" id="size" min="1" max="100" value="50">
-            </div>
-        </div>
-    </div>
-    <footer>
-        <p>Realizzato da Andrea Napoli</p>
-    </footer>
-    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
-    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+            }
+        </script>
 
-    <!--<script src="index.js"></script>-->
-    <script src="skybox.js"></script>
-</body>
+        <!-- WEBGL LIB -->
+        <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+        <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+        <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+        <!-- EXTERNAL CODE JS -->
+        <script src="skybox.js"></script>
+  </body>
 </html>
-

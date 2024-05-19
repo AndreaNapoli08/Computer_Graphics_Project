@@ -1,22 +1,5 @@
 /* Aggiungi al CSS esistente */
 
-.container {
-  display: flex;
-  justify-content: space-between; /* Posiziona gli elementi all'estremo opposto */
-  align-items: stretch; /* Allunga gli elementi in altezza */
-  height: calc(100vh - 100px); /* Altezza della finestra meno header e footer */
-  border-top: 2px solid #fff; /* Linea superiore bianca */
-  border-bottom: 2px solid #fff; /* Linea inferiore bianca */
-}
-
-.canvas-container {
-  flex-grow: 1; /* La canvas occupa lo spazio rimanente */
-  background-color: #fff;
-  border: 2px solid #333;
-  border-radius: 5px; /* Bordi arrotondati */
-  margin: 10px; /* Margine */ 
-}
-
 header {
   height: 50px;
   background-color: #333; /* Colore di sfondo per l'header */
@@ -27,15 +10,40 @@ header {
 }
 
 .menu {
-  background-color: #f0f0f0; /* Colore di sfondo per il menu */
+  width: 20%;
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 250px; /* Larghezza del menu */
-  border-top: 2px solid #fff; /* Linea superiore bianca */
-  border-bottom: 2px solid #fff; /* Linea inferiore bianca */
-  border-right: 2px solid #fff; /* Linea destra bianca */
-  margin-right: 10px; /* Margine destro */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Aggiunta ombra */
+  font-family: Arial, sans-serif; /* Cambiato il font */
+}
+
+.menu h2 {
+  font-size: 1.5em; /* Dimensione del titolo */
+  margin-bottom: 10px; /* Spazio inferiore */
+}
+
+.input-group {
+  margin-bottom: 15px; /* Spazio inferiore */
+}
+
+.input-group label {
+  display: block; /* Rendi il label un blocco */
+  margin-bottom: 5px; /* Spazio inferiore */
+  font-size: 1.2em; /* Dimensione del testo */
+}
+
+.input-group input[type="color"],
+.input-group input[type="range"],
+.input-group select {
+  width: 100%; /* Larghezza completa */
+  padding: 5px; /* Spaziatura interna */
+  border-radius: 5px; /* Bordi arrotondati */
+  border: 1px solid #ccc; /* Bordo */
+}
+
+.input-group input[type="color"] {
+  appearance: none; /* Nascondi l'aspetto nativo */
 }
 
 footer {
