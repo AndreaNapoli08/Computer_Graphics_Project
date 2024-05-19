@@ -1,46 +1,49 @@
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-const objectTypeSelect = document.getElementById('objectType');
-const colorInput = document.getElementById('color');
-const sizeInput = document.getElementById('size');
 
-let objectToDraw = objectTypeSelect.value;
-let objectColor = colorInput.value;
-let objectSize = sizeInput.value;
+let velocity = 10;
+var spaceshipCamera = m4.identity();
+var cameraPositionMain = m4.identity();
+let initialSpaceshipRotation = 0;
+let initialSpaceshipRotation2 = 0;
+// Definisci le variabili per tenere traccia dello stato dei tasti WASD
+var keys = {};
+window.addEventListener("keydown", function(event) {
+  keys[event.key] = true;
+  updateCameraPosition();
+});
+window.addEventListener("keyup", function(event) {
+  keys[event.key] = false;
+  updateCameraPosition();
+});
 
-function drawObject() {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = objectColor;
-    
-    if (objectToDraw === 'cube') {
-        context.fillRect(50, 50, objectSize, objectSize);
-    } else if (objectToDraw === 'sphere') {
-        context.beginPath();
-        context.arc(100, 100, objectSize / 2, 0, Math.PI * 2);
-        context.fill();
-    } else if (objectToDraw === 'cylinder') {
-        context.beginPath();
-        context.moveTo(75, 150);
-        context.lineTo(125, 150);
-        context.arc(100, 150, objectSize / 2, 0, Math.PI);
-        context.closePath();
-        context.fill();
-    }
+function degToRad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+// Aggiorna la posizione della telecamera in base ai tasti premuti
+function updateCameraPosition() {
+  if (keys['ArrowUp']) {
+    console.log("su");
+    m4.xRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
+    initialSpaceshipRotation2 -= 0.1
+  }
+  if (keys['ArrowDown']) {
+    console.log("giu");
+    m4.xRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
+    initialSpaceshipRotation2 += 0.1
+  }
+  if (keys['ArrowLeft']) {
+    console.log("sinistra");
+    m4.yRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
+    initialSpaceshipRotation -= 0.1
+  }
+  if (keys['ArrowRight']) {
+    console.log("destra");
+    m4.yRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
+    initialSpaceshipRotation += 0.1
+  }
 }
-
-objectTypeSelect.addEventListener('change', function() {
-    objectToDraw = this.value;
-    drawObject();
-});
-
-colorInput.addEventListener('input', function() {
-    objectColor = this.value;
-    drawObject();
-});
-
-sizeInput.addEventListener('input', function() {
-    objectSize = this.value;
-    drawObject();
-});
-
-drawObject();
+  

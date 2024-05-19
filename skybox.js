@@ -34,27 +34,27 @@ function main() {
   const faceInfos = [
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-      url: 'assets/1.png',
+      url: 'assets2/right.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-      url: 'assets/3.png',
+      url: 'assets2/left.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-      url: 'assets/5.png',
+      url: 'assets2/up.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-      url: 'assets/6.png',
+      url: 'assets2/down.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-      url: 'assets/2.png',
+      url: 'assets2/front.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-      url: 'assets/4.png',
+      url: 'assets2/back.png',
     },
   ];
 
@@ -78,7 +78,7 @@ function main() {
     image.addEventListener('load', function() {
       // Now that the image has loaded make copy it to the texture.
       gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-      gl.texImage2D(target, level, internalFormat, format, type, image); //MI DA ERRORE QUI
+      gl.texImage2D(target, level, internalFormat, format, type, image);
       gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
     });
   });
@@ -95,22 +95,49 @@ function main() {
 
   var fieldOfViewRadians = degToRad(60);
   var cameraYRotationRadians = degToRad(0);
+  var cameraXRotationRadians = degToRad(0); // Aggiunta variabile per la rotazione sull'asse X
 
-  var spinCamera = true;
-  // Get the starting time.
-  var then = 0;
+  var mouseDown = false;
+  var lastMouseX = null;
+  var lastMouseY = null;
 
-  requestAnimationFrame(drawScene);
+  canvas.addEventListener('mousedown', function(event) {
+    mouseDown = true;
+    lastMouseX = event.clientX;
+    lastMouseY = event.clientY;
+  }, false);
+
+  canvas.addEventListener('mouseup', function(event) {
+    mouseDown = false;
+  }, false);
+
+  canvas.addEventListener('mousemove', function(event) {
+    if (!mouseDown) {
+      return;
+    }
+
+    var newX = event.clientX;
+    var newY = event.clientY;
+
+    var deltaX = newX - lastMouseX;
+    var deltaY = newY - lastMouseY;
+
+    lastMouseX = newX;
+    lastMouseY = newY;
+
+    // Modifica le variabili per muovere la skybox in base al movimento del mouse
+    cameraYRotationRadians += degToRad(deltaX / 5);
+    cameraXRotationRadians += degToRad(deltaY / 5);
+
+    // Ridisegna la scena con la nuova posizione della skybox
+    drawScene();
+  }, false);
+
+  // Disegna la scena all'avvio del programma
+  drawScene();
 
   // Draw the scene.
-  function drawScene(time) {
-    // convert to seconds
-    time *= 0.001;
-    // Subtract the previous time from the current time
-    var deltaTime = time - then;
-    // Remember the current time for the next frame.
-    then = time;
-
+  function drawScene() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
     // Tell WebGL how to convert from clip space to pixels
@@ -145,20 +172,12 @@ function main() {
     var projectionMatrix =
         m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
-    // camera going in circle 2 units from origin looking at origin
-    var cameraPosition = [Math.cos(time * .1), 0, Math.sin(time * .1)];
-    var target = [0, 0, 0];
-    var up = [0, 1, 0];
     // Compute the camera's matrix using look at.
-    var cameraMatrix = m4.lookAt(cameraPosition, target, up);
+    var cameraMatrix = m4.yRotate(m4.identity(), cameraYRotationRadians);
+    cameraMatrix = m4.xRotate(cameraMatrix, cameraXRotationRadians);
 
     // Make a view matrix from the camera matrix.
     var viewMatrix = m4.inverse(cameraMatrix);
-
-    // We only care about direciton so remove the translation
-    viewMatrix[12] = 0;
-    viewMatrix[13] = 0;
-    viewMatrix[14] = 0;
 
     var viewDirectionProjectionMatrix =
         m4.multiply(projectionMatrix, viewMatrix);
@@ -178,9 +197,8 @@ function main() {
 
     // Draw the geometry.
     gl.drawArrays(gl.TRIANGLES, 0, 1 * 6);
-
-    requestAnimationFrame(drawScene);
   }
+
 }
 
 // Fill the buffer with the values that define a quad.
