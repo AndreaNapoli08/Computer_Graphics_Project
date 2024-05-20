@@ -97,41 +97,19 @@ function main() {
   var cameraYRotationRadians = degToRad(0);
   var cameraXRotationRadians = degToRad(0); // Aggiunta variabile per la rotazione sull'asse X
 
-  var mouseDown = false;
-  var lastMouseX = null;
-  var lastMouseY = null;
+  var keys = {};
 
-  canvas.addEventListener('mousedown', function(event) {
-    mouseDown = true;
-    lastMouseX = event.clientX;
-    lastMouseY = event.clientY;
-  }, false);
+  // Gestisci l'evento keydown
+  window.addEventListener("keydown", function(event) {
+    keys[event.key] = true;
+    updateCameraPosition();
+  });
 
-  canvas.addEventListener('mouseup', function(event) {
-    mouseDown = false;
-  }, false);
-
-  canvas.addEventListener('mousemove', function(event) {
-    if (!mouseDown) {
-      return;
-    }
-
-    var newX = event.clientX;
-    var newY = event.clientY;
-
-    var deltaX = newX - lastMouseX;
-    var deltaY = newY - lastMouseY;
-
-    lastMouseX = newX;
-    lastMouseY = newY;
-
-    // Modifica le variabili per muovere la skybox in base al movimento del mouse
-    cameraYRotationRadians += degToRad(deltaX / 5);
-    cameraXRotationRadians += degToRad(deltaY / 5);
-
-    // Ridisegna la scena con la nuova posizione della skybox
-    drawScene();
-  }, false);
+  // Gestisci l'evento keyup
+  window.addEventListener("keyup", function(event) {
+    keys[event.key] = false;
+    updateCameraPosition();
+  });
 
   // Disegna la scena all'avvio del programma
   drawScene();
@@ -197,6 +175,29 @@ function main() {
 
     // Draw the geometry.
     gl.drawArrays(gl.TRIANGLES, 0, 1 * 6);
+  }
+
+  // Aggiorna la posizione della skybox in base ai tasti premuti
+  function updateCameraPosition() {
+    if (keys['ArrowUp']) {
+      console.log("su");
+      cameraXRotationRadians += degToRad(1); // Incrementa la rotazione verso l'alto
+    }
+    if (keys['ArrowDown']) {
+      console.log("giu");
+      cameraXRotationRadians -= degToRad(1); // Incrementa la rotazione verso il basso
+    }
+    if (keys['ArrowLeft']) {
+      console.log("sinistra");
+      cameraYRotationRadians += degToRad(1); // Incrementa la rotazione verso sinistra
+    }
+    if (keys['ArrowRight']) {
+      console.log("destra");
+      cameraYRotationRadians -= degToRad(1); // Incrementa la rotazione verso destra
+    }
+
+    // Ridisegna la scena con la nuova posizione della skybox
+    drawScene();
   }
 
 }
