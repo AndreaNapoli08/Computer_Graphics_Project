@@ -1,3 +1,6 @@
+
+
+
 "use strict";
 
 function main() {
@@ -58,14 +61,15 @@ function main() {
     },
   ];
 
+
   faceInfos.forEach((faceInfo) => {
     const {target, url} = faceInfo;
 
     // Upload the canvas to the cubemap face.
     const level = 0;
     const internalFormat = gl.RGBA;
-    const width = 512;
-    const height = 512;
+    const width = 2048;
+    const height = 2048;
     const format = gl.RGBA;
     const type = gl.UNSIGNED_BYTE;
 
@@ -80,9 +84,6 @@ function main() {
       gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
       gl.texImage2D(target, level, internalFormat, format, type, image);
       gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
-
-      // After all images are loaded, draw the scene
-      drawScene();
     });
   });
   gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
@@ -98,27 +99,22 @@ function main() {
 
   var fieldOfViewRadians = degToRad(60);
   var cameraYRotationRadians = degToRad(0);
-  var cameraXRotationRadians = degToRad(0); // Aggiunta variabile per la rotazione sull'asse X
 
-  var keys = {};
-  
-  // Gestisci l'evento keydown
-  window.addEventListener("keydown", function(event) {
-    keys[event.key] = true;
-    updateCameraPosition();
-  });
-
-  // Gestisci l'evento keyup
-  window.addEventListener("keyup", function(event) {
-    keys[event.key] = false;
-    updateCameraPosition();
-  });
+  var spinCamera = true;
+  // Get the starting time.
+  var then = 0;
 
   requestAnimationFrame(drawScene);
 
-
   // Draw the scene.
-  function drawScene() {
+  function drawScene(time) {
+    // convert to seconds
+    time *= 0.001;
+    // Subtract the previous time from the current time
+    var deltaTime = time - then;
+    // Remember the current time for the next frame.
+    then = time;
+
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
     // Tell WebGL how to convert from clip space to pixels
@@ -153,12 +149,21 @@ function main() {
     var projectionMatrix =
         m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
+    // camera going in circle 2 units from origin looking at origin
+    // var cameraPosition = [Math.cos(time * .1), 0, Math.sin(time * .1)];
+    var cameraPosition = cameraPositionMain
+    var target = [0, 0, 0];
+    var up = [0, 1, 0];
     // Compute the camera's matrix using look at.
-    var cameraMatrix = m4.yRotate(m4.identity(), cameraYRotationRadians);
-    cameraMatrix = m4.xRotate(cameraMatrix, cameraXRotationRadians);
+    var cameraMatrix = m4.lookAt(cameraPosition, target, up);
 
     // Make a view matrix from the camera matrix.
     var viewMatrix = m4.inverse(cameraMatrix);
+
+    // We only care about direciton so remove the translation
+    viewMatrix[12] = 0;
+    viewMatrix[13] = 0;
+    viewMatrix[14] = 0;
 
     var viewDirectionProjectionMatrix =
         m4.multiply(projectionMatrix, viewMatrix);
@@ -181,27 +186,6 @@ function main() {
 
     requestAnimationFrame(drawScene);
   }
-
-  // Aggiorna la posizione della skybox in base ai tasti premuti
-  function updateCameraPosition() {
-    if (keys['ArrowUp']) {
-      console.log("su");
-      cameraXRotationRadians += degToRad(1); // Incrementa la rotazione verso l'alto
-    }
-    if (keys['ArrowDown']) {
-      console.log("giu");
-      cameraXRotationRadians -= degToRad(1); // Incrementa la rotazione verso il basso
-    }
-    if (keys['ArrowLeft']) {
-      console.log("sinistra");
-      cameraYRotationRadians += degToRad(1); // Incrementa la rotazione verso sinistra
-    }
-    if (keys['ArrowRight']) {
-      console.log("destra");
-      cameraYRotationRadians -= degToRad(1); // Incrementa la rotazione verso destra
-    }
-  }
-
 }
 
 // Fill the buffer with the values that define a quad.
