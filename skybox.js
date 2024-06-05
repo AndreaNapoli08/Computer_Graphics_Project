@@ -34,27 +34,27 @@ function main() {
   const faceInfos = [
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-      url: 'assets4/right.png',
+      url: 'skybox/sky/right.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-      url: 'assets4/left.png',
+      url: 'skybox/sky/left.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-      url: 'assets4/up.png',
+      url: 'skybox/sky/up.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-      url: 'assets4/down.png',
+      url: 'skybox/sky/down.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-      url: 'assets4/front.png',
+      url: 'skybox/sky/front.png',
     },
     {
       target: gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-      url: 'assets4/back.png',
+      url: 'skybox/sky/back.png',
     },
   ];
 
@@ -97,8 +97,8 @@ function main() {
   }
 
   var fieldOfViewRadians = degToRad(60);
-  var cameraYRotationRadians = degToRad(0);
-  var cameraXRotationRadians = degToRad(0); // Aggiunta variabile per la rotazione sull'asse X
+  var cameraYRotationRadians = degToRad(50);
+  var cameraXRotationRadians = degToRad(-20); // Aggiunta variabile per la rotazione sull'asse X
 
   var keys = {};
   
@@ -185,12 +185,15 @@ function main() {
   // Aggiorna la posizione della skybox in base ai tasti premuti
   function updateCameraPosition() {
     if (keys['ArrowUp']) {
-      console.log("su");
-      cameraXRotationRadians += degToRad(1); // Incrementa la rotazione verso l'alto
+      //if(cameraXRotationRadians<-0.0349065850398865){
+        cameraXRotationRadians += degToRad(1); // Incrementa la rotazione verso l'alto
+      //}
     }
     if (keys['ArrowDown']) {
       console.log("giu");
-      cameraXRotationRadians -= degToRad(1); // Incrementa la rotazione verso il basso
+      //if(cameraXRotationRadians>-0.6108652381980156){
+        cameraXRotationRadians -= degToRad(1); // Incrementa la rotazione verso il basso
+      //} 
     }
     if (keys['ArrowLeft']) {
       console.log("sinistra");

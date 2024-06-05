@@ -11,7 +11,9 @@ let lightz = 1
 let velocity = 10
 var spaceshipCamera = m4.identity()
 let initialSpaceshipRotation = 0
-
+var sound_plane = new Audio('aereo.mp3');
+var turbo_plane = new Audio('turbo.mp3');
+let positionBirdChange = false;
 function parseOBJ(text) {
   // because indices are base 1 let's just fill in the 0th data
   const objPositions = [[0, 0, 0]];
@@ -321,7 +323,7 @@ function generateTangents(position, texcoord, indices) {
   return tangents;
 }
 
-async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection) {
+async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection, dirigibile, bird, airBaloon) {
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
   const canvas = document.querySelector("#canvas");
@@ -570,12 +572,9 @@ const keys = {
   ArrowUp: false,
   ArrowDown: false,
   ArrowLeft: false,
-  ArrowRight: false,
-  plus: false,
-  minus: false,
-  '-': false,
-  '+': false
+  ArrowRight: false
 };
+
 
 // Event listeners per i tasti
 window.addEventListener('keydown', handleKeyDown);
@@ -584,10 +583,14 @@ window.addEventListener('keyup', handleKeyUp);
 function handleKeyDown(event) {
   const key = event.key.toLowerCase();
     keys[key] = true;
-    updateCameraPosition();
+    if(spaceship){
+      updateCameraPosition();
+    }
 }
 
 function handleKeyUp(event) {
+  sound_plane.pause();
+  turbo_plane.pause();
   const key = event.key.toLowerCase();
     keys[key] = false;
     updateCameraPosition();
@@ -614,43 +617,43 @@ document.querySelectorAll(".arrow-key").forEach(function(button) {
 });
 
 
-
 // Funzione per aggiornare la posizione della camera in base ai tasti premuti
 function updateCameraPosition() {
-  if (keys['w']) {
+  if (keys['w'] && keys[' ']) {
+    m4.translate(cameraPositionMain, 0, 0, -velocity*3, cameraPositionMain);
+    //turbo_plane.play();
+    //sound_plane.pause();
+  }else if (keys['w']) {
     m4.translate(cameraPositionMain, 0, 0, -velocity, cameraPositionMain);
+    //sound_plane.play();
   }
   if (keys['a']) {
     m4.translate(cameraPositionMain, -velocity, 0, 0, cameraPositionMain);
   }
+  if (keys['a'] && keys[' ']) {
+    m4.translate(cameraPositionMain, -velocity*3, 0, 0, cameraPositionMain);
+  }
   if (keys['s']) {
     m4.translate(cameraPositionMain, 0, 0, velocity, cameraPositionMain);
   }
+  if (keys['s'] && keys[' ']) {
+    m4.translate(cameraPositionMain, 0, 0, velocity*3, cameraPositionMain);
+  }
   if (keys['d']) {
     m4.translate(cameraPositionMain, velocity, 0, 0, cameraPositionMain);
-    // cameraPositionMain = m4.translation(10, 10, 10);
   }
-  if (keys['ArrowUp']) {
-    m4.translate(cameraPositionMain, 0, velocity, 0, cameraPositionMain);
+  if (keys['d'] && keys[' ']) {
+    m4.translate(cameraPositionMain, velocity*3, 0, 0, cameraPositionMain);
   }
-  if (keys['ArrowDown']) {
-    m4.translate(cameraPositionMain, 0, -velocity, 0, cameraPositionMain);
-  }
-  if (keys['ArrowLeft']) {
-    m4.yRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
+  if (keys['arrowup']) {
+    m4.xRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
     initialSpaceshipRotation -= 0.1
   }
-  if (keys['ArrowRight']) {
-    m4.yRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
+  if (keys['arrowdown']) {
+    m4.xRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
-  }
-  if (keys['arrowup']) {
-    m4.translate(cameraPositionMain, 0, velocity, 0, cameraPositionMain);
-  }
-  if (keys['arrowdown']) {
-    m4.translate(cameraPositionMain, 0, -velocity, 0, cameraPositionMain);
   }
   if (keys['arrowleft']) {
     m4.yRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
@@ -661,18 +664,6 @@ function updateCameraPosition() {
     m4.yRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
-  }
-  if (keys['plus']) {
-    velocity +=1
-  }
-  if (keys['minus']) {
-    velocity--
-  }
-  if (keys['+']) {
-    velocity +=1
-  }
-  if (keys['-']) {
-    velocity--
   }
 }
 
@@ -702,9 +693,65 @@ function rotateObject(rotatePosition, u_world) {
   return m4.multiply(m4.multiply(m4.multiply(u_world, xRotationMatrix), yRotationMatrix), zRotationMatrix);
 }
 
-function render(time) {
-  time *= rotation;  // convert to seconds
 
+function render(time) {
+  if(dirigibile){
+    animateDirigibile();
+  }
+  if(bird){
+    animateBird();
+  }
+  if(airBaloon){
+    animateAirBaloon();
+  }
+  time *= rotation;  // convert to seconds
+  
+  function calculateCircularMovement(angle, radius) {
+    let x = Math.cos(angle) * radius;
+    let z = Math.sin(angle) * radius;
+    return [x,z];
+  }
+
+  function animateDirigibile() {
+    let angle = time * 0.0001;
+    let radius = 10000;
+    let [x,z] = calculateCircularMovement(angle, radius);
+    positionObj[0] = x;
+    positionObj[2] = z;
+  }
+
+  function animateBird() {
+    // Angolo che varia nel tempo
+    let angle = time * 0.0001; // Regola la velocità di rotazione
+    // Raggio del cerchio
+    let radius = 10000;
+    // Calcola le coordinate x e z in base all'angolo e al raggio
+    let [x,z] = calculateCircularMovement(angle, radius);
+    // Aggiorna le coordinate x e z del dirigibile
+    positionObj[0] = -x;
+    x=Math.floor(x);
+    if(x>=9999 || x<=-9999) {
+      if(!positionBirdChange){
+        if(rotatePosition[1]==90){
+          rotatePosition[1]=-90
+        }else{
+          rotatePosition[1]=90
+        }
+        positionBirdChange = true;
+      }
+    }
+    if(x<9998 && x>-9998){
+      positionBirdChange = false;
+    }
+  }
+
+  function animateAirBaloon() {
+    let angle = time * 0.0001;
+    let radius = 10000;
+    let [y,z] = calculateCircularMovement(angle, radius);
+    positionObj[1] = y;
+  }
+  
   webglUtils.resizeCanvasToDisplaySize(gl.canvas);
   gl.clearColor(0, 0, 0, 1);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -784,20 +831,22 @@ function render(time) {
   requestAnimationFrame(render);
 }
 
+loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false);
+loadModel("object/rainbow/tinker.obj",10,[10,-200,-10000],0,[90,180,0],false,10,false, false,false, false);
+loadModel("object/dirigibile/dirigibile.obj",10,[10,-200,-10000],0,[0,360,0],false,10,false, true,false, false);
+loadModel("object/uccello/bird.obj",50,[5000,-500,-8000],0,[0,90,0],false,10,false, false, true, false);
+loadModel("object/mongolfiera/Air_Balloon.obj",100,[-4000,500,-8000],0,[0,90,0],false,10,false, false, false, true);
+loadModel("object/grattacielo/2/grattacielo.obj",750,[0,-100000,0],0,[0,90,0],false,10,false, false, false, false);
+//loadModel("object/stella/stella1/star.obj",40,[8000,0,-10000],0.001,[0,0,0],false,10,false, false,false, false);
+loadModel("object/stella/stella2/SimpleStar.obj",500,[4000,0,-5000],0.001,[180,90,90],false,10,false, false,false, false);
 
-//loadModel("assets/solar/solar.obj",40,[1000,500,-1500],0.0001,[0,0,0],false,10,false);
-// loadModel("planet1/Stylized_Planets.obj",300,[2000,0,4500],0.0001,[0,0,0],false,10,false);
-loadModel("spaceship/justigue league flying vehicle.obj",1,[0,-90,-400],0,[0,180,0],true,velocity,false);
-//loadModel("assets/solsystem/system.obj",20,[4000,1600,5000],0.0001,[-90,0,0],false,10,false);
-//loadModel("assets/rainbow/rainbow.obj",100,[0,350,-180],0,[180,230,170],false,10,true);
-// loadModel("mirror/mirror.obj",50,[-5000,-900,-1000],0,[180,0,90],false,10,true);
 
 // document.addEventListener("DOMContentLoaded", function() {
 //   var loadingText = document.getElementById("loadingText");
 //   var canvas = document.getElementById("canvas");
 
 //   function hideLoadingText() {
-//     loadingText.style.display = "none";
+//     loadingText.style.display = "none";w 
 //     canvas.style.display = "block";
 //   }
 

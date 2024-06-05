@@ -3,14 +3,11 @@ var cameraPositionMain = m4.identity()
 let viewMatrixMain;
 let lightsEnabled = true;
 
-let lightx = 1
-let lighty = 1
-let lightz = 1
 let velocity = 10
 var spaceshipCamera = m4.identity()
 let initialSpaceshipRotation = 0
 
-async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection) {
+async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, fish, velocity,reflection) {
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
   const canvas = document.querySelector("#canvas");
@@ -51,63 +48,61 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
   `;
 
   const fs = `
-      precision highp float;
-      varying vec3 v_normal;
-      varying vec3 v_tangent;
-      varying vec3 v_surfaceToView;
-      varying vec2 v_texcoord;
-      varying vec4 v_color;
-
-      uniform int u_lightsEnabled; // Nuova uniforma per abilitare/disabilitare le luci
-
-      uniform vec3 diffuse;
-      uniform sampler2D diffuseMap;
-      uniform vec3 ambient;
-      uniform vec3 emissive;
-      uniform vec3 specular;
-      uniform sampler2D specularMap;
-      uniform float shininess;
-      uniform sampler2D normalMap;
-      uniform float opacity;
-      uniform vec3 u_lightDirection;
-      uniform vec3 u_ambientLight;
-
-      void main () {
-        if (u_lightsEnabled == 1) { // Controlla se le luci sono abilitate
-          vec3 normal = normalize(v_normal) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+  precision highp float;
+  varying vec3 v_normal;
+  varying vec3 v_tangent;
+  varying vec3 v_surfaceToView;
+  varying vec2 v_texcoord;
+  varying vec4 v_color;
+  
+  uniform int u_lightsEnabled;
+  uniform int u_bumpMappingEnabled;
+  uniform vec3 diffuse;
+  uniform sampler2D diffuseMap;
+  uniform vec3 ambient;
+  uniform vec3 emissive;
+  uniform vec3 specular;
+  uniform sampler2D specularMap;
+  uniform sampler2D normalMap; // Add normal map texture
+  uniform float shininess;
+  uniform float opacity;
+  uniform vec3 u_lightDirection;
+  uniform vec3 u_ambientLight;
+  
+  void main () {
+      if (u_lightsEnabled == 1) {
+        vec3 normal = normalize(v_normal) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+        if (u_bumpMappingEnabled == 0) {
           vec3 tangent = normalize(v_tangent) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
           vec3 bitangent = normalize(cross(normal, tangent));
-
+          
           mat3 tbn = mat3(tangent, bitangent, normal);
           normal = texture2D(normalMap, v_texcoord).rgb * 2. - 1.;
           normal = normalize(tbn * normal);
-
+        }
           vec3 surfaceToViewDirection = normalize(v_surfaceToView);
           vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
-
+  
           float fakeLight = dot(u_lightDirection, normal) * .5 + .5;
           float specularLight = clamp(dot(normal, halfVector), 0.0, 1.0);
           vec4 specularMapColor = texture2D(specularMap, v_texcoord);
           vec3 effectiveSpecular = specular * specularMapColor.rgb;
-
+  
           vec4 diffuseMapColor = texture2D(diffuseMap, v_texcoord);
           vec3 effectiveDiffuse = diffuse * diffuseMapColor.rgb * v_color.rgb;
           float effectiveOpacity = opacity * diffuseMapColor.a * v_color.a;
-
+  
           gl_FragColor = vec4(
-            emissive +
-            ambient * u_ambientLight +
-            effectiveDiffuse * fakeLight +
-            effectiveSpecular * pow(specularLight, shininess),
-            effectiveOpacity);
-        } else {
-          // Se le luci sono disabilitate, rendi il pixel completamente nero
+              emissive +
+              ambient * u_ambientLight +
+              effectiveDiffuse * fakeLight +
+              effectiveSpecular * pow(specularLight, shininess),
+              effectiveOpacity);
+      } else {
           gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-        }
       }
-
+  }
   `;
-
 
   // compiles and links the shaders, looks up attribute and uniform locations
   const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
@@ -358,16 +353,13 @@ function render(time) {
   var sharedUniforms
   viewMatrixMain = m4.inverse(cameraPositionMain);
   sharedUniforms = {
-    // u_lightDirection: m4.normalize([-1, 3, 5]), // Vecchia luce
-    u_lightDirection: m4.normalize([lightx, lighty, -lightz]), // Vecchia luce
-    u_frontLightDirection: m4.normalize([10, 50, -1]), // Nuova luce frontale
-    u_lightsEnabled: lightsEnabled ? 1 : 0,
     u_view: viewMatrixMain,
     u_projection: projection,
     u_viewWorldPosition: spaceshipCamera,
   }; 
 
-  if(spaceship){
+  
+  if(fish){
     viewMatrixMain = m4.inverse(spaceshipCamera);
     sharedUniforms = {
       u_lightDirection: m4.normalize([-1, 3, 5]),
@@ -724,4 +716,26 @@ function parseMTL(text) {
   return materials;
 }
 
-loadModel("spaceship/justigue league flying vehicle.obj",1,[0,-90,-400],0,[0,180,0],true,10,false);
+//loadModel("object/fish/fish.obj",8,[0,-90,-400],0,[270,0,270],true,10,false);
+//loadModel("object/spaceship/justigue league flying vehicle.obj",1,[0,-90,-400],0,[0,180,0],true,velocity,false);
+//loadModel("object/fish2/13007_Blue-Green_Reef_Chromis_v2_l3.obj",30,[0,-90,-400],0,[270,0,180],true,10,false);
+//loadModel("object/shark/SHARK.obj",90,[0,-90,-400],0,[180,270,180],true,10,false);
+
+//squalo va bene
+//loadModel("object/shark2/Shark.obj",25,[30,-90,-400],-0,[180,360,180],true,10,false);
+
+//loadModel("object/conchiglia/conchiglia.obj",1,[0,-90,-400],-0,[90,180,180],false,10,false);
+/*loadModel(
+  'object/sottomarino/sottomarino.obj',
+  1, // Resize object: [scaleX, scaleY, scaleZ]
+  [1000, 500, -1500], // Position object: [x, y, z]
+  0.0001,         //  rotation
+  [0, 0, 0], // Rotate position: [rotateX, rotateY, rotateZ]
+  false,      // spaceship mode
+  10,        // velocity
+  false      // reflection
+);*/
+//loadModel("object/conchiglia2/seashell_obj.obj",0.1,[0,-90,-400],-0,[90,180,180],true,10,true);
+
+//sottomarino va bene
+loadModel("object/sottomarino/sottomarino.obj",10,[0,0,-360],-0,[30,180,0],true,10,false);
