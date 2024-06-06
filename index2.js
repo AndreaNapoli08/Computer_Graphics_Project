@@ -14,6 +14,7 @@ let initialSpaceshipRotation = 0
 var sound_plane = new Audio('aereo.mp3');
 var turbo_plane = new Audio('turbo.mp3');
 let positionBirdChange = false;
+let positionSupermanChange = false;
 function parseOBJ(text) {
   // because indices are base 1 let's just fill in the 0th data
   const objPositions = [[0, 0, 0]];
@@ -323,7 +324,7 @@ function generateTangents(position, texcoord, indices) {
   return tangents;
 }
 
-async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection, dirigibile, bird, airBaloon) {
+async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection, dirigibile, bird, airBaloon, superman) {
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
   const canvas = document.querySelector("#canvas");
@@ -557,7 +558,7 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
   // Set zNear and zFar to something hopefully appropriate
   // for the size of this object.
   const zNear = radius / 100;
-  const zFar = radius * 10000;
+  const zFar = radius * 1000000;
 
   function degToRad(deg) {
     return deg * Math.PI / 180;
@@ -704,9 +705,12 @@ function render(time) {
   if(airBaloon){
     animateAirBaloon();
   }
+  if(superman){
+    animateSuperman();
+  }
   time *= rotation;  // convert to seconds
   
-  function calculateCircularMovement(angle, radius) {
+  function calculateMovement(angle, radius) {
     let x = Math.cos(angle) * radius;
     let z = Math.sin(angle) * radius;
     return [x,z];
@@ -715,7 +719,7 @@ function render(time) {
   function animateDirigibile() {
     let angle = time * 0.0001;
     let radius = 10000;
-    let [x,z] = calculateCircularMovement(angle, radius);
+    let [x,z] = calculateMovement(angle, radius);
     positionObj[0] = x;
     positionObj[2] = z;
   }
@@ -726,7 +730,7 @@ function render(time) {
     // Raggio del cerchio
     let radius = 10000;
     // Calcola le coordinate x e z in base all'angolo e al raggio
-    let [x,z] = calculateCircularMovement(angle, radius);
+    let [x,z] = calculateMovement(angle, radius);
     // Aggiorna le coordinate x e z del dirigibile
     positionObj[0] = -x;
     x=Math.floor(x);
@@ -748,8 +752,29 @@ function render(time) {
   function animateAirBaloon() {
     let angle = time * 0.0001;
     let radius = 10000;
-    let [y,z] = calculateCircularMovement(angle, radius);
+    let [y,z] = calculateMovement(angle, radius);
     positionObj[1] = y;
+  }
+
+  function animateSuperman() {
+    let angle = time * 0.001;
+    let radius = 10000;
+    let [y,z] = calculateMovement(angle, radius);
+    positionObj[1] = y;
+    y=Math.floor(y);
+    if(y>=9999 || y<=-9999) {
+      if(!positionSupermanChange){
+        if(rotatePosition[2]==0){
+          rotatePosition[2]=180
+        }else{
+          rotatePosition[2]=0
+        }
+        positionSupermanChange = true;
+      }
+    }
+    if(y<9998 && y>-9998){
+      positionSupermanChange = false;
+    }
   }
   
   webglUtils.resizeCanvasToDisplaySize(gl.canvas);
@@ -799,7 +824,7 @@ function render(time) {
 
   // calls gl.uniform
   webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
-
+  
   // compute the world matrix once since all parts
   // are at the same space.
   let u_world = m4.yRotation(time);
@@ -831,14 +856,30 @@ function render(time) {
   requestAnimationFrame(render);
 }
 
-loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false);
-loadModel("object/rainbow/tinker.obj",10,[10,-200,-10000],0,[90,180,0],false,10,false, false,false, false);
-loadModel("object/dirigibile/dirigibile.obj",10,[10,-200,-10000],0,[0,360,0],false,10,false, true,false, false);
-loadModel("object/uccello/bird.obj",50,[5000,-500,-8000],0,[0,90,0],false,10,false, false, true, false);
-loadModel("object/mongolfiera/Air_Balloon.obj",100,[-4000,500,-8000],0,[0,90,0],false,10,false, false, false, true);
-loadModel("object/grattacielo/2/grattacielo.obj",750,[0,-100000,0],0,[0,90,0],false,10,false, false, false, false);
-//loadModel("object/stella/stella1/star.obj",40,[8000,0,-10000],0.001,[0,0,0],false,10,false, false,false, false);
-loadModel("object/stella/stella2/SimpleStar.obj",500,[4000,0,-5000],0.001,[180,90,90],false,10,false, false,false, false);
+loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
+//loadModel("object/dirigibile/dirigibile.obj",10,[10,-200,-10000],0,[0,360,0],false,10,false, true,false, false, false);
+//loadModel("object/uccello/bird.obj",50,[5000,-500,-8000],0,[0,90,0],false,10,false, false, true, false, false);
+//loadModel("object/mongolfiera/Air_Balloon.obj",100,[-4000,500,-8000],0,[0,90,0],false,10,false, false, false, true, false);
+//loadModel("object/clouds/cloud.obj",2000,[-1500,-5000,-700],0,[270,90,90],false,10,false, false,false, false, false);
+//loadModel("object/grattacielo/2/grattacielo.obj",20,[-1000,-5000,0],0,[0,90,0],false,10,false, false, false, false, false);
+//loadModel("object/stella/stella2/SimpleStar.obj",500,[4000,0,-5000],0.001,[180,90,90],false,10,false, false,false, false, false);
+//loadModel("object/superman/superman.obj",1000,[2000,0,-5000],0,[0,180,0],false,10,false, false,false, false, true);
+
+// percorso anelli
+loadModel("object/ring/ring.obj",1500,[0,2000,-20000],0,[0,120,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[15000,0,-20000],0,[0,260,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[30000,2000,-20000],0,[0,260,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[45000,0,-17000],0,[0,70,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[60000,-2000,-10000],0,[0,50,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[78000,-4000,0],0,[0,30,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[80000,0,12000],0,[0,10,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[75000,0,24000],0,[0,-10,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
+
+loadModel("object/ring/ring.obj",1500,[55000,0,42000],0,[0,-40,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
 
 
 // document.addEventListener("DOMContentLoaded", function() {
