@@ -863,7 +863,7 @@ loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,f
 //loadModel("object/mongolfiera/Air_Balloon.obj",100,[-4000,500,-8000],0,[0,90,0],false,10,false, false, false, true, false);
 //loadModel("object/clouds/cloud.obj",2000,[-1500,-5000,-700],0,[270,90,90],false,10,false, false,false, false, false);
 //loadModel("object/grattacielo/2/grattacielo.obj",20,[-1000,-5000,0],0,[0,90,0],false,10,false, false, false, false, false);
-//loadModel("object/stella/stella2/SimpleStar.obj",500,[4000,0,-5000],0.001,[180,90,90],false,10,false, false,false, false, false);
+loadModel("object/stella/stella2/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10,false, false,false, false, false);
 //loadModel("object/superman/superman.obj",1000,[2000,0,-5000],0,[0,180,0],false,10,false, false,false, false, true);
 
 // percorso anelli
