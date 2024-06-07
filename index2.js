@@ -657,12 +657,12 @@ function updateCameraPosition() {
     initialSpaceshipRotation += 0.1
   }
   if (keys['arrowleft']) {
-    m4.yRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
+    m4.yRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
     initialSpaceshipRotation -= 0.1
   }
   if (keys['arrowright']) {
-    m4.yRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
+    m4.yRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
   }
@@ -856,6 +856,7 @@ function render(time) {
   requestAnimationFrame(render);
 }
 
+
 loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
 //loadModel("object/dirigibile/dirigibile.obj",10,[10,-200,-10000],0,[0,360,0],false,10,false, true,false, false, false);
 //loadModel("object/uccello/bird.obj",50,[5000,-500,-8000],0,[0,90,0],false,10,false, false, true, false, false);
@@ -875,11 +876,19 @@ loadModel("object/ring/ring.obj",1500,[78000,-4000,0],0,[0,30,0],false,10,false,
 loadModel("object/ring/ring.obj",1500,[80000,0,12000],0,[0,10,0],false,10,false, false,false, false, false);
 loadModel("object/ring/ring.obj",1500,[75000,0,24000],0,[0,-10,0],false,10,false, false,false, false, false);
 loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
-
 loadModel("object/ring/ring.obj",1500,[55000,0,42000],0,[0,-40,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",1500,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[45000,-2000,50000],0,[0,-70,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[30000,0,48000],0,[0,-80,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[20000,0,42000],0,[0,90,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[8000,0,42000],0,[0,90,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[1000,0,37000],0,[0,90,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[-8000,2000,33000],0,[0,90,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[-15000,-2000,25000],0,[0,-120,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[-22000,0,18000],0,[0,-140,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[-20000,1000,6000],0,[0,-160,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",1500,[-15000,0,-10000],0,[0,180,0],false,10,false, false,false, false, false);
+
+//loadModel("object/ring/ring.obj",1500,[20000,0,35000],0,[0,90,0],false,10,false, false,false, false, false);
 
 
 // document.addEventListener("DOMContentLoaded", function() {

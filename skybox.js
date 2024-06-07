@@ -196,11 +196,9 @@ function main() {
       //} 
     }
     if (keys['ArrowLeft']) {
-      console.log("sinistra");
       cameraYRotationRadians += degToRad(1); // Incrementa la rotazione verso sinistra
     }
     if (keys['ArrowRight']) {
-      console.log("destra");
       cameraYRotationRadians -= degToRad(1); // Incrementa la rotazione verso destra
     }
   }
