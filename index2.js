@@ -647,12 +647,12 @@ function updateCameraPosition() {
     m4.translate(cameraPositionMain, velocity*3, 0, 0, cameraPositionMain);
   }
   if (keys['arrowup']) {
-    m4.xRotate(cameraPositionMain, degToRad(0.5), cameraPositionMain);
+    m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
     initialSpaceshipRotation -= 0.1
   }
   if (keys['arrowdown']) {
-    m4.xRotate(cameraPositionMain, degToRad(-0.5), cameraPositionMain);
+    m4.xRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
   }
@@ -717,24 +717,24 @@ function render(time) {
   }
 
   function animateDirigibile() {
-    let angle = time * 0.0001;
+    let angle = time * 0.001;
     let radius = 10000;
     let [x,z] = calculateMovement(angle, radius);
-    positionObj[0] = x;
-    positionObj[2] = z;
+    positionObj[0] = x-11000;
+    positionObj[2] = z-11000;
   }
 
   function animateBird() {
     // Angolo che varia nel tempo
-    let angle = time * 0.0001; // Regola la velocità di rotazione
+    let angle = time * 0.0004; // Regola la velocità di rotazione
     // Raggio del cerchio
-    let radius = 10000;
+    let radius = 50000;
     // Calcola le coordinate x e z in base all'angolo e al raggio
     let [x,z] = calculateMovement(angle, radius);
     // Aggiorna le coordinate x e z del dirigibile
-    positionObj[0] = -x;
+    positionObj[0] = -x+30000;
     x=Math.floor(x);
-    if(x>=9999 || x<=-9999) {
+    if(x>=49999 || x<=-49999) {
       if(!positionBirdChange){
         if(rotatePosition[1]==90){
           rotatePosition[1]=-90
@@ -744,14 +744,14 @@ function render(time) {
         positionBirdChange = true;
       }
     }
-    if(x<9998 && x>-9998){
+    if(x<49998 && x>-49998){
       positionBirdChange = false;
     }
   }
 
   function animateAirBaloon() {
-    let angle = time * 0.0001;
-    let radius = 10000;
+    let angle = time * 0.0005;
+    let radius = 15000;
     let [y,z] = calculateMovement(angle, radius);
     positionObj[1] = y;
   }
@@ -856,16 +856,6 @@ function render(time) {
   requestAnimationFrame(render);
 }
 
-
-loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
-//loadModel("object/dirigibile/dirigibile.obj",10,[10,-200,-10000],0,[0,360,0],false,10,false, true,false, false, false);
-//loadModel("object/uccello/bird.obj",50,[5000,-500,-8000],0,[0,90,0],false,10,false, false, true, false, false);
-//loadModel("object/mongolfiera/Air_Balloon.obj",100,[-4000,500,-8000],0,[0,90,0],false,10,false, false, false, true, false);
-//loadModel("object/clouds/cloud.obj",2000,[-1500,-5000,-700],0,[270,90,90],false,10,false, false,false, false, false);
-//loadModel("object/grattacielo/2/grattacielo.obj",20,[-1000,-5000,0],0,[0,90,0],false,10,false, false, false, false, false);
-loadModel("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10,false, false,false, false, false);
-//loadModel("object/superman/superman.obj",1000,[2000,0,-5000],0,[0,180,0],false,10,false, false,false, false, true);
-
 // percorso anelli
 loadModel("object/ring/ring.obj",1500,[0,2000,-20000],0,[0,120,0],false,10,false, false,false, false, false);
 loadModel("object/ring/ring.obj",1500,[15000,0,-20000],0,[0,260,0],false,10,false, false,false, false, false);
@@ -888,8 +878,14 @@ loadModel("object/ring/ring.obj",1500,[-22000,0,18000],0,[0,-140,0],false,10,fal
 loadModel("object/ring/ring.obj",1500,[-20000,1000,6000],0,[0,-160,0],false,10,false, false,false, false, false);
 loadModel("object/ring/ring.obj",1500,[-15000,0,-10000],0,[0,180,0],false,10,false, false,false, false, false);
 
-//loadModel("object/ring/ring.obj",1500,[20000,0,35000],0,[0,90,0],false,10,false, false,false, false, false);
-
+// vari oggetti
+loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
+loadModel("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10,false, false,false, false, false);
+loadModel("object/dirigibile2/dirigibile.obj",4000,[10,-200,-10000],0,[0,160,0],false,10,false, true,false, false, false);
+loadModel("object/uccello/bird.obj",50,[5000,-500,30000],0,[0,90,0],false,10,false, false, true, false, false);
+loadModel("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,10,false, false, false, false, false);
+loadModel("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10,false, false, false, true, false);
+loadModel("object/superman/superman.obj",2000,[36000,0,48000],0.0001,[0,90,0],false,10,false, false,false, false, true);
 
 // document.addEventListener("DOMContentLoaded", function() {
 //   var loadingText = document.getElementById("loadingText");
