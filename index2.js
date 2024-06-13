@@ -15,6 +15,51 @@ var sound_plane = new Audio('aereo.mp3');
 var turbo_plane = new Audio('turbo.mp3');
 let positionBirdChange = false;
 let positionSupermanChange = false;
+let buttonSprint = false;
+
+const fovInput = document.getElementById('fov');
+const fovValue = document.getElementById('fovLabel');
+fovInput.addEventListener('input', function() {
+  fovValue.textContent = "Fov: " + fovInput.value;
+});
+
+const LightXInput = document.getElementById('lightx');
+const LightXValue = document.getElementById('lightxLabel');
+LightXInput.addEventListener('input', function() {
+  LightXValue.textContent = "Light x: " + LightXInput.value;
+});
+
+const LightYInput = document.getElementById('lighty');
+const LightYValue = document.getElementById('lightyLabel');
+LightYInput.addEventListener('input', function() {
+  LightYValue.textContent = "Light y: " + LightYInput.value;
+});
+
+const LightZInput = document.getElementById('lightz');
+const LightZValue = document.getElementById('lightzLabel');
+LightZInput.addEventListener('input', function() {
+  LightZValue.textContent = "Light z: " + LightZInput.value;
+});
+
+function sprint(){
+  var button = document.getElementById('buttonSprint');
+  if(!buttonSprint){
+    button.style.background = "green";
+    buttonSprint = true;
+  }else{
+    button.style.background = "#005eff";
+    buttonSprint = false;
+  }
+}
+
+function arrowright(){
+
+}
+
+function arrowLeft(){
+
+}
+
 function parseOBJ(text) {
   // because indices are base 1 let's just fill in the 0th data
   const objPositions = [[0, 0, 0]];
@@ -598,9 +643,9 @@ function handleKeyUp(event) {
 }
 
 // Event listeners per i bottoni direzionali
-document.querySelectorAll(".arrow-key").forEach(function(button) {
+document.querySelectorAll(".commandButton").forEach(function(button) {
   const keyCode = button.getAttribute("data-key");
-  
+
   button.addEventListener("mousedown", function(e) {
     keys[keyCode] = true;
     updateCameraPosition();
@@ -620,7 +665,7 @@ document.querySelectorAll(".arrow-key").forEach(function(button) {
 
 // Funzione per aggiornare la posizione della camera in base ai tasti premuti
 function updateCameraPosition() {
-  if (keys['w'] && keys[' ']) {
+  if (keys['w'] && (keys[' '] || buttonSprint)){
     m4.translate(cameraPositionMain, 0, 0, -velocity*3, cameraPositionMain);
     //turbo_plane.play();
     //sound_plane.pause();
@@ -631,19 +676,19 @@ function updateCameraPosition() {
   if (keys['a']) {
     m4.translate(cameraPositionMain, -velocity, 0, 0, cameraPositionMain);
   }
-  if (keys['a'] && keys[' ']) {
+  if (keys['a'] && (keys[' '] || buttonSprint)) {
     m4.translate(cameraPositionMain, -velocity*3, 0, 0, cameraPositionMain);
   }
   if (keys['s']) {
     m4.translate(cameraPositionMain, 0, 0, velocity, cameraPositionMain);
   }
-  if (keys['s'] && keys[' ']) {
+  if (keys['s'] && (keys[' '] || buttonSprint)) {
     m4.translate(cameraPositionMain, 0, 0, velocity*3, cameraPositionMain);
   }
   if (keys['d']) {
     m4.translate(cameraPositionMain, velocity, 0, 0, cameraPositionMain);
   }
-  if (keys['d'] && keys[' ']) {
+  if (keys['d'] && (keys[' '] || buttonSprint)) {
     m4.translate(cameraPositionMain, velocity*3, 0, 0, cameraPositionMain);
   }
   if (keys['arrowup']) {
@@ -662,6 +707,26 @@ function updateCameraPosition() {
     initialSpaceshipRotation -= 0.1
   }
   if (keys['arrowright']) {
+    m4.yRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
+    initialSpaceshipRotation += 0.1
+  }
+  if (keys['ArrowUp']) {
+    m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
+    initialSpaceshipRotation -= 0.1
+  }
+  if (keys['ArrowDown']) {
+    m4.xRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
+    initialSpaceshipRotation += 0.1
+  }
+  if (keys['ArrowLeft']) {
+    m4.yRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
+    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
+    initialSpaceshipRotation -= 0.1
+  }
+  if (keys['ArrowRight']) {
     m4.yRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
@@ -720,18 +785,19 @@ function render(time) {
     let angle = time * 0.001;
     let radius = 10000;
     let [x,z] = calculateMovement(angle, radius);
+    if(x>-5000){
+      rotatePosition[1] = 10;
+    }else{
+      rotatePosition[1] = 160;
+    }
     positionObj[0] = x-11000;
     positionObj[2] = z-11000;
   }
 
   function animateBird() {
-    // Angolo che varia nel tempo
-    let angle = time * 0.0004; // Regola la velocità di rotazione
-    // Raggio del cerchio
+    let angle = time * 0.0004; 
     let radius = 50000;
-    // Calcola le coordinate x e z in base all'angolo e al raggio
     let [x,z] = calculateMovement(angle, radius);
-    // Aggiorna le coordinate x e z del dirigibile
     positionObj[0] = -x+30000;
     x=Math.floor(x);
     if(x>=49999 || x<=-49999) {
@@ -809,7 +875,6 @@ function render(time) {
       u_viewWorldPosition: spaceshipCamera,
     };
   } 
-
   
   if(initialSpaceshipRotation > 0){
       m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
@@ -881,7 +946,7 @@ loadModel("object/ring/ring.obj",1500,[-15000,0,-10000],0,[0,180,0],false,10,fal
 // vari oggetti
 loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
 loadModel("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10,false, false,false, false, false);
-loadModel("object/dirigibile2/dirigibile.obj",4000,[10,-200,-10000],0,[0,160,0],false,10,false, true,false, false, false);
+loadModel("object/dirigibile2/dirigibile.obj",6000,[10,-200,-10000],0,[0,160,0],false,10,false, true,false, false, false);
 loadModel("object/uccello/bird.obj",50,[5000,-500,30000],0,[0,90,0],false,10,false, false, true, false, false);
 loadModel("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,10,false, false, false, false, false);
 loadModel("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10,false, false, false, true, false);

@@ -7,10 +7,9 @@
         <link rel="stylesheet" href="index.css" />
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-
     <body>
         <header>
-            <h1>Progetto Computer Graphics</h1>
+            <p>Progetto Computer Graphics</p>
         </header>
         <div class="flex flex-1 flex-col">
             <div class="flex flex-1 md:flex-row justify-center w-full flex-col">
@@ -18,22 +17,39 @@
                     <canvas id="canvas" class="flex flex-1 rounded-lg"></canvas>
                 </div>
                 <div class="menu">
-                    <h2>Impostazioni</h2>
+                    <h2>Settings</h2>
                     <div class="input-group">
-                        <label for="objectType">Tipo di oggetto:</label>
-                        <select id="objectType">
-                            <option value="cube">Cubo</option>
-                            <option value="sphere">Sfera</option>
-                            <option value="cylinder">Cilindro</option>
-                        </select>
+                        <label id="fovLabel" for="fov">Fov: 50</label>
+                        <input type="range" id="fov" min="1" max="100" value="50">
                     </div>
                     <div class="input-group">
-                        <label for="color">Colore:</label>
-                        <input type="color" id="color" value="#ff0000">
+                        <label id="lightxLabel" for="lightx">Light x: 50</label>
+                        <input type="range" id="lightx" min="1" max="100" value="50">
                     </div>
                     <div class="input-group">
-                        <label for="size">Dimensione:</label>
-                        <input type="range" id="size" min="1" max="100" value="50">
+                        <label id="lightyLabel" for="lighty">Light y: 50</label>
+                        <input type="range" id="lighty" min="1" max="100" value="50">
+                    </div>
+                    <div class="input-group">
+                        <label id="lightzLabel" for="lightz">Light z: 50</label>
+                        <input type="range" id="lightz" min="1" max="100" value="50">
+                    </div>
+                    <div class="button-container">
+                        <button class="commandButton" data-key="w">W</button>
+                        <div class="button-row">
+                            <button class="commandButton" data-key="a">A</button>
+                            <button class="commandButtonSprint" id="buttonSprint" onclick="sprint()">Sprint</button>
+                            <button class="commandButton" data-key="d">D</button>
+                        </div>
+                        <div class="button-row">
+                            <button class="commandButton" data-key="s">S</button>
+                        </div>
+                        <div class="button-row">
+                            <button class="commandButton" data-key="ArrowRight">➡</button>
+                            <button class="commandButton" data-key="ArrowLeft">⬅</button>
+                            <button class="commandButton" data-key="ArrowUp">⬆</button>
+                            <button class="commandButton" data-key="ArrowDown">⬇</button>
+                        </div>
                     </div>
                 </div>
             </div>

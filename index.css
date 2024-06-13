@@ -2,7 +2,7 @@
 
 header {
   height: 50px;
-  background-color: #333; /* Colore di sfondo per l'header */
+  background-color: #005eff; /* Colore di sfondo per l'header */
   color: #fff;
   text-align: center;
   padding: 10px 0;
@@ -10,32 +10,35 @@ header {
 }
 
 .menu {
-  width: 20%;
-  background-color: #f0f0f0;
+  width: 23%; /* Aumenta la larghezza del menu dal 20% al 25% */
+  background-color: #628fdd;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Aggiunta ombra */
   font-family: Arial, sans-serif; /* Cambiato il font */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra gli elementi orizzontalmente */
 }
 
 .menu h2 {
   font-size: 1.5em; /* Dimensione del titolo */
-  margin-bottom: 10px; /* Spazio inferiore */
+  margin-bottom: 0px; /* Spazio inferiore */
 }
 
 .input-group {
-  margin-bottom: 15px; /* Spazio inferiore */
+  margin-bottom: 3px; /* Spazio inferiore */
+  width: 100%; /* Rende gli input a larghezza completa */
 }
 
 .input-group label {
   display: block; /* Rendi il label un blocco */
-  margin-bottom: 5px; /* Spazio inferiore */
-  font-size: 1.2em; /* Dimensione del testo */
+  font-size: 1em; /* Dimensione del testo */
+  color: white;
+  text-align: center;
 }
 
-.input-group input[type="color"],
-.input-group input[type="range"],
-.input-group select {
+.input-group input[type="range"] {
   width: 100%; /* Larghezza completa */
   padding: 5px; /* Spaziatura interna */
   border-radius: 5px; /* Bordi arrotondati */
@@ -46,10 +49,67 @@ header {
   appearance: none; /* Nascondi l'aspetto nativo */
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column; /* Disporre i pulsanti in colonna */
+  align-items: center; /* Centra gli elementi all'interno del contenitore */
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center; /* Centra i pulsanti orizzontalmente */
+  gap: 10px; /* Spazio tra i pulsanti */
+  margin-top: 10px; /* Spazio superiore tra il pulsante W e la riga di pulsanti */
+}
+
+.commandButton,
+.commandButtonSprint {
+  background-color: #005eff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.commandButton:hover,
+.commandButtonSprint:hover {
+  background-color: #004bcc;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.commandButton:active,
+.commandButtonSprint:active {
+  background-color: #003a99;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+}
+
+
 footer {
-  background-color: #333; /* Colore di sfondo per il footer */
+  background-color: #005eff; /* Colore di sfondo per il footer */
   color: #fff;
   text-align: center;
   padding: 10px 0;
   border-top: 2px solid #fff; /* Linea superiore bianca */
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+}
+
+p {
+  font-size: 25px;
+  font-family: "Arial";
+  font-weight: bold;
 }
