@@ -113,3 +113,24 @@ p {
   font-family: "Arial";
   font-weight: bold;
 }
+
+  /* Media Query per la responsività */
+  @media (max-width: 1000px) {
+    .flex-1 {
+      flex-direction: column;
+    }
+  
+    .menu {
+      width: 100%;
+      max-width: none;
+      margin: 20px 0;
+    }
+  
+    canvas {
+      width: 100%;
+    }
+  
+    header p, footer p {
+      font-size: 20px;
+    }
+  }

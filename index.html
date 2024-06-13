@@ -1,95 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Progetto Computer Graphics</title>
-        <link rel="stylesheet" href="index.css" />
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body>
-        <header>
-            <p>Progetto Computer Graphics</p>
-        </header>
-        <div class="flex flex-1 flex-col">
-            <div class="flex flex-1 md:flex-row justify-center w-full flex-col">
-                <div style="flex: 1 0 75%" class="flex w-full"> 
-                    <canvas id="canvas" class="flex flex-1 rounded-lg"></canvas>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progetto Computer Graphics</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <header>
+        <p>Progetto Computer Graphics</p>
+    </header>
+    <div class="flex flex-1 flex-col">
+        <div class="flex flex-1 md:flex-row justify-center w-full flex-col">
+            <div style="flex: 1 0 75%" class="flex w-full"> 
+                <canvas id="canvas" class="flex flex-1 rounded-lg"></canvas>
+            </div>
+            <div class="menu">
+                <h2>Settings</h2>
+                <div class="input-group">
+                    <label id="fovLabel" for="fov">Fov: 50</label>
+                    <input type="range" id="fov" min="1" max="100" value="50">
                 </div>
-                <div class="menu">
-                    <h2>Settings</h2>
-                    <div class="input-group">
-                        <label id="fovLabel" for="fov">Fov: 50</label>
-                        <input type="range" id="fov" min="1" max="100" value="50">
+                <div class="input-group">
+                    <label id="lightxLabel" for="lightx">Light x: 50</label>
+                    <input type="range" id="lightx" min="1" max="100" value="50">
+                </div>
+                <div class="input-group">
+                    <label id="lightyLabel" for="lighty">Light y: 50</label>
+                    <input type="range" id="lighty" min="1" max="100" value="50">
+                </div>
+                <div class="input-group">
+                    <label id="lightzLabel" for="lightz">Light z: 50</label>
+                    <input type="range" id="lightz" min="1" max="100" value="50">
+                </div>
+                <div class="button-container">
+                    <button class="commandButton" data-key="w">W</button>
+                    <div class="button-row">
+                        <button class="commandButton" data-key="a">A</button>
+                        <button class="commandButtonSprint" id="buttonSprint" onclick="sprint()">Sprint</button>
+                        <button class="commandButton" data-key="d">D</button>
                     </div>
-                    <div class="input-group">
-                        <label id="lightxLabel" for="lightx">Light x: 50</label>
-                        <input type="range" id="lightx" min="1" max="100" value="50">
+                    <div class="button-row">
+                        <button class="commandButton" data-key="s">S</button>
                     </div>
-                    <div class="input-group">
-                        <label id="lightyLabel" for="lighty">Light y: 50</label>
-                        <input type="range" id="lighty" min="1" max="100" value="50">
-                    </div>
-                    <div class="input-group">
-                        <label id="lightzLabel" for="lightz">Light z: 50</label>
-                        <input type="range" id="lightz" min="1" max="100" value="50">
-                    </div>
-                    <div class="button-container">
-                        <button class="commandButton" data-key="w">W</button>
-                        <div class="button-row">
-                            <button class="commandButton" data-key="a">A</button>
-                            <button class="commandButtonSprint" id="buttonSprint" onclick="sprint()">Sprint</button>
-                            <button class="commandButton" data-key="d">D</button>
-                        </div>
-                        <div class="button-row">
-                            <button class="commandButton" data-key="s">S</button>
-                        </div>
-                        <div class="button-row">
-                            <button class="commandButton" data-key="ArrowRight">➡</button>
-                            <button class="commandButton" data-key="ArrowLeft">⬅</button>
-                            <button class="commandButton" data-key="ArrowUp">⬆</button>
-                            <button class="commandButton" data-key="ArrowDown">⬇</button>
-                        </div>
+                    <div class="button-row">
+                        <button class="commandButton" data-key="ArrowLeft">⬅</button>
+                        <button class="commandButton" data-key="ArrowRight">➡</button>
+                        <button class="commandButton" data-key="ArrowUp">⬆</button>
+                        <button class="commandButton" data-key="ArrowDown">⬇</button>
                     </div>
                 </div>
             </div>
-        </div>        
-        <footer>
-            <p>Realizzato da Andrea Napoli</p>
-        </footer>
-        <!-- SHADERS BOX -->
-        <script id="vertex-shader-3d" type="x-shader/x-vertex">
-            attribute vec4 a_position;
-            varying vec4 v_position;
-            void main() {
-                v_position = a_position;
-                gl_Position = a_position;
-                gl_Position.z = 1.0;
-            }
-        </script>
-        <script id="fragment-shader-3d" type="x-shader/x-fragment">
-            precision mediump float;
-            
-            uniform samplerCube u_skybox;
-            uniform mat4 u_viewDirectionProjectionInverse;
-            
-            varying vec4 v_position;
-            void main() {
-                vec4 t = u_viewDirectionProjectionInverse * v_position;
-                gl_FragColor = textureCube(u_skybox, normalize(t.xyz / t.w));
-            }
-        </script>
-
-        <!-- WEBGL LIB -->
-        <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
-        <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
-        <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
-        <!-- EXTERNAL CODE JS -->
-        <script src="index2.js"></script>
-        <script src="skybox.js"></script>
-        <!--<script src="fileObj.js"></script>-->
+        </div>
+    </div>        
+    <footer>
+        <p>Realizzato da Andrea Napoli</p>
+    </footer>
+    <!-- SHADERS BOX -->
+    <script id="vertex-shader-3d" type="x-shader/x-vertex">
+        attribute vec4 a_position;
+        varying vec4 v_position;
+        void main() {
+            v_position = a_position;
+            gl_Position = a_position;
+            gl_Position.z = 1.0;
+        }
+    </script>
+    <script id="fragment-shader-3d" type="x-shader/x-fragment">
+        precision mediump float;
         
-  </body>
+        uniform samplerCube u_skybox;
+        uniform mat4 u_viewDirectionProjectionInverse;
+        
+        varying vec4 v_position;
+        void main() {
+            vec4 t = u_viewDirectionProjectionInverse * v_position;
+            gl_FragColor = textureCube(u_skybox, normalize(t.xyz / t.w));
+        }
+    </script>
+
+    <!-- WEBGL LIB -->
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- EXTERNAL CODE JS -->
+    <script src="index2.js"></script>
+    <script src="skybox.js"></script>
+    <!--<script src="fileObj.js"></script>-->
+</body>
 </html>

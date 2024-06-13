@@ -691,6 +691,7 @@ function updateCameraPosition() {
   if (keys['d'] && (keys[' '] || buttonSprint)) {
     m4.translate(cameraPositionMain, velocity*3, 0, 0, cameraPositionMain);
   }
+  // comandi da tastiera
   if (keys['arrowup']) {
     m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
@@ -711,6 +712,7 @@ function updateCameraPosition() {
     m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
     initialSpaceshipRotation += 0.1
   }
+  // comandi sul menù 
   if (keys['ArrowUp']) {
     m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
     m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
