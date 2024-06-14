@@ -3,11 +3,11 @@
 var cameraPositionMain = m4.identity()
 let viewMatrixMain;
 let lightsEnabled = true;
-let fov = 60
+let fov = 50;
+let lightx = 50;
+let lighty = 50;
+let lightz = 50;
 
-let lightx = 1
-let lighty = 1
-let lightz = 1
 let velocity = 10
 var spaceshipCamera = m4.identity()
 let initialSpaceshipRotation = 0
@@ -21,25 +21,36 @@ const fovInput = document.getElementById('fov');
 const fovValue = document.getElementById('fovLabel');
 fovInput.addEventListener('input', function() {
   fovValue.textContent = "Fov: " + fovInput.value;
+  fov = fovInput.value;
 });
 
 const LightXInput = document.getElementById('lightx');
 const LightXValue = document.getElementById('lightxLabel');
 LightXInput.addEventListener('input', function() {
   LightXValue.textContent = "Light x: " + LightXInput.value;
+  lightx = LightXInput.value;
 });
 
 const LightYInput = document.getElementById('lighty');
 const LightYValue = document.getElementById('lightyLabel');
 LightYInput.addEventListener('input', function() {
   LightYValue.textContent = "Light y: " + LightYInput.value;
+  lighty = LightYInput.value;
 });
 
 const LightZInput = document.getElementById('lightz');
 const LightZValue = document.getElementById('lightzLabel');
 LightZInput.addEventListener('input', function() {
   LightZValue.textContent = "Light z: " + LightZInput.value;
+  lightz = LightZInput.value;
 });
+
+const lightsCheckbox = document.getElementById('lightsCheckbox');
+lightsCheckbox.addEventListener('change', function() {
+  lightsEnabled = lightsCheckbox.checked;
+});
+
+
 
 function sprint(){
   var button = document.getElementById('buttonSprint');
@@ -761,7 +772,6 @@ function rotateObject(rotatePosition, u_world) {
   return m4.multiply(m4.multiply(m4.multiply(u_world, xRotationMatrix), yRotationMatrix), zRotationMatrix);
 }
 
-
 function render(time) {
   if(dirigibile){
     animateDirigibile();
@@ -954,20 +964,3 @@ loadModel("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,1
 loadModel("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10,false, false, false, true, false);
 loadModel("object/superman/superman.obj",2000,[36000,0,48000],0.0001,[0,90,0],false,10,false, false,false, false, true);
 
-// document.addEventListener("DOMContentLoaded", function() {
-//   var loadingText = document.getElementById("loadingText");
-//   var canvas = document.getElementById("canvas");
-
-//   function hideLoadingText() {
-//     loadingText.style.display = "none";w 
-//     canvas.style.display = "block";
-//   }
-
-//   loadModel("solar/solar.obj",40,[1000,-200,-1500],0.0001,[0,0,0],false,10,false);
-//   // loadModel("planet1/Stylized_Planets.obj",300,[2000,0,4500],0.0001,[0,0,0],false,10,false);
-//   loadModel("spaceship/justigue league flying vehicle.obj",1,[0,-90,-400],0,[0,180,0],true,10,false);
-//   loadModel("solsystem/system.obj",20,[4000,1600,5000],0.0001,[-90,0,0],false,10,false);
-//   loadModel("rainbow/untitled.obj",100,[-30,0,-100],0,[180,210,180],false,10,true);
-//   // loadModel("mirror/mirror.obj",50,[-5000,-900,-1000],0,[180,0,90],false,10,true);
-//   setTimeout(hideLoadingText, 3000);
-// });

@@ -22,8 +22,9 @@ header {
 }
 
 .menu h2 {
-  font-size: 1.5em; /* Dimensione del titolo */
-  margin-bottom: 0px; /* Spazio inferiore */
+  font-size: 2em; /* Dimensione del titolo */
+  margin-bottom: 15px; /* Spazio inferiore */
+  font-weight: bold;
 }
 
 .input-group {
@@ -33,9 +34,13 @@ header {
 
 .input-group label {
   display: block; /* Rendi il label un blocco */
-  font-size: 1em; /* Dimensione del testo */
+  font-size: 1.2em; /* Dimensione del testo */
   color: white;
   text-align: center;
+}
+
+.checkbox-container{
+  margin-top: 10px;
 }
 
 .input-group input[type="range"] {
@@ -72,12 +77,14 @@ header {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
+  margin-bottom: 5px; 
+  margin-left: 5px;
 }
 
 .commandButton:hover,
