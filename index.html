@@ -20,7 +20,7 @@
                 <h2>Settings</h2>
                 <div class="input-group">
                     <label id="fovLabel" for="fov">Fov: 50</label>
-                    <input type="range" id="fov" min="1" max="100" value="50">
+                    <input type="range" id="fov" min="35" max="100" value="50">
                 </div>
                 <div class="input-group">
                     <label id="lightxLabel" for="lightx">Light x: 50</label>
@@ -54,7 +54,13 @@
                         <div class="checkbox-container">
                             <div class="flex items-center mb-4">
                                 <input id="lightsCheckbox" type="checkbox" value="" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
-                                <label for="lightsCheckbox" class="ms-3 text-xl font-medium text-white dark:text-gray-300">Abilita Luce</label>
+                                <label for="lightsCheckbox" class="ms-1 mr-5 text-xl font-medium text-white dark:text-gray-300">Abilita Luce</label>
+                            </div>
+                        </div>
+                        <div class="checkbox-container">
+                            <div class="flex items-center mb-4">
+                                <input id="shadowCheckbox" type="checkbox" value="" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
+                                <label for="shadowCheckbox" class="ms-1 text-xl font-medium text-white dark:text-gray-300">Abilita Ombre</label>
                             </div>
                         </div>
                     </div>
@@ -95,7 +101,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- EXTERNAL CODE JS -->
-    <script src="index2.js"></script>
+    <script src="index.js"></script>
     <script src="skybox.js"></script>
     <!--<script src="fileObj.js"></script>-->
 </body>

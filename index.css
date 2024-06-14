@@ -1,12 +1,22 @@
 /* Aggiungi al CSS esistente */
 
 header {
-  height: 50px;
+  height: 62px;
   background-color: #005eff; /* Colore di sfondo per l'header */
   color: #fff;
   text-align: center;
   padding: 10px 0;
   border-bottom: 2px solid #fff; /* Linea inferiore bianca */
+}
+
+
+footer {
+  height: 62px;
+  background-color: #005eff; /* Colore di sfondo per il footer */
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 2px solid #fff; /* Linea superiore bianca */
 }
 
 .menu {
@@ -99,15 +109,6 @@ header {
   background-color: #003a99;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
-}
-
-
-footer {
-  background-color: #005eff; /* Colore di sfondo per il footer */
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-  border-top: 2px solid #fff; /* Linea superiore bianca */
 }
 
 h2 {
