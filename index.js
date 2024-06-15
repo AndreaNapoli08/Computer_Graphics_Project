@@ -4,6 +4,7 @@ var cameraPositionMain = m4.identity()
 let viewMatrixMain;
 let lightsEnabled = true;
 let shadowEnabled = true;
+let bumpEnabled = true;
 let fov = 50;
 let lightx = 50;
 let lighty = 50;
@@ -52,8 +53,19 @@ lightsCheckbox.addEventListener('change', function() {
 });
 
 const shadowCheckbox = document.getElementById('shadowCheckbox');
+const bumpCheckbox = document.getElementById('bumpCheckbox');
+
 shadowCheckbox.addEventListener('change', function() {
   shadowEnabled = shadowCheckbox.checked;
+  bumpCheckbox.disabled = !shadowEnabled;
+  bumpCheckboxWrapper.classList.toggle('bg-gray-300', !shadowEnabled); 
+  bumpCheckboxWrapper.classList.toggle('cursor-not-allowed', !shadowEnabled);
+  bumpCheckboxWrapper.classList.toggle('opacity-50', !shadowEnabled);
+  bumpLabel.classList.toggle('text-gray-300', !shadowEnabled); 
+});
+
+bumpCheckbox.addEventListener('change', function() {
+  bumpEnabled = bumpCheckbox.checked;
 });
 
 
@@ -418,6 +430,7 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
 
   `;
 
+  //fs funzionante
   const fs = `
       precision highp float;
       varying vec3 v_normal;
@@ -428,6 +441,7 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
 
       uniform int u_lightsEnabled; // Nuova uniforma per abilitare/disabilitare le luci
       uniform int u_shadowEnabled;
+      uniform int u_bumpEnabled;
 
       uniform vec3 diffuse;
       uniform sampler2D diffuseMap;
@@ -445,13 +459,14 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
         if (u_lightsEnabled == 1) { // Controlla se le luci sono abilitate
           if(u_shadowEnabled == 1){
             vec3 normal = normalize(v_normal) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
-            vec3 tangent = normalize(v_tangent) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
-            vec3 bitangent = normalize(cross(normal, tangent));
+            if(u_bumpEnabled == 1){
+              vec3 tangent = normalize(v_tangent) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+              vec3 bitangent = normalize(cross(normal, tangent));
 
-            mat3 tbn = mat3(tangent, bitangent, normal);
-            normal = texture2D(normalMap, v_texcoord).rgb * 2. - 1.;
-            normal = normalize(tbn * normal);
-
+              mat3 tbn = mat3(tangent, bitangent, normal);
+              normal = texture2D(normalMap, v_texcoord).rgb * 2. - 1.;
+              normal = normalize(tbn * normal);
+            }
             vec3 surfaceToViewDirection = normalize(v_surfaceToView);
             vec3 halfVector = normalize(u_lightDirection + surfaceToViewDirection);
 
@@ -482,10 +497,8 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
           gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
       }
-
   `;
-
-
+  
   // compiles and links the shaders, looks up attribute and uniform locations
   const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
 
@@ -880,6 +893,7 @@ function render(time) {
     u_frontLightDirection: m4.normalize([10, 50, -1]), // Nuova luce frontale
     u_lightsEnabled: lightsEnabled ? 1 : 0,
     u_shadowEnabled: shadowEnabled ? 1 : 0,
+    u_bumpEnabled: bumpEnabled ? 1 : 0,
     u_view: viewMatrixMain,
     u_projection: projection,
     u_viewWorldPosition: spaceshipCamera,
@@ -891,6 +905,7 @@ function render(time) {
       u_lightDirection: m4.normalize([-1, 3, 5]),
       u_lightsEnabled: lightsEnabled ? 1 : 0, 
       u_shadowEnabled: shadowEnabled ? 1 : 0,
+      u_bumpEnabled: bumpEnabled ? 1 : 0,
       u_view: viewMatrixMain,
       u_projection: projection,
       u_viewWorldPosition: spaceshipCamera,

@@ -123,7 +123,7 @@ p {
 }
 
   /* Media Query per la responsività */
-  @media (max-width: 1000px) {
+  @media (max-width: 768px) {
     .flex-1 {
       flex-direction: column;
     }

@@ -23,16 +23,16 @@
                     <input type="range" id="fov" min="35" max="100" value="50">
                 </div>
                 <div class="input-group">
-                    <label id="lightxLabel" for="lightx">Light x: 50</label>
-                    <input type="range" id="lightx" min="1" max="100" value="50">
+                    <label id="lightxLabel" for="lightx">Light x: 100</label>
+                    <input type="range" id="lightx" min="1" max="200" value="100">
                 </div>
                 <div class="input-group">
-                    <label id="lightyLabel" for="lighty">Light y: 50</label>
-                    <input type="range" id="lighty" min="1" max="100" value="50">
+                    <label id="lightyLabel" for="lighty">Light y: 100</label>
+                    <input type="range" id="lighty" min="1" max="200" value="100">
                 </div>
                 <div class="input-group">
-                    <label id="lightzLabel" for="lightz">Light z: 50</label>
-                    <input type="range" id="lightz" min="1" max="100" value="50">
+                    <label id="lightzLabel" for="lightz">Light z: 100</label>
+                    <input type="range" id="lightz" min="1" max="200" value="100">
                 </div>
                 <div class="button-container">
                     <button class="commandButton" data-key="w">W</button>
@@ -53,16 +53,31 @@
                     <div class="button-row">
                         <div class="checkbox-container">
                             <div class="flex items-center mb-4">
-                                <input id="lightsCheckbox" type="checkbox" value="" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
-                                <label for="lightsCheckbox" class="ms-1 mr-5 text-xl font-medium text-white dark:text-gray-300">Abilita Luce</label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="lightsCheckbox" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ms-1 mr-4 text-xl font-medium text-white dark:text-gray-300">Light</span>
+                                </label>
                             </div>
                         </div>
                         <div class="checkbox-container">
                             <div class="flex items-center mb-4">
-                                <input id="shadowCheckbox" type="checkbox" value="" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked>
-                                <label for="shadowCheckbox" class="ms-1 text-xl font-medium text-white dark:text-gray-300">Abilita Ombre</label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="shadowCheckbox" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span class="ms-1 mr-4 text-xl font-medium text-white dark:text-gray-300">Shadow</span>
+                                </label>
                             </div>
                         </div>
+                        <div class="checkbox-container">
+                            <div class="flex items-center mb-4">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input id="bumpCheckbox" type="checkbox" value="" class="sr-only peer" checked>
+                                    <div id="bumpCheckboxWrapper" class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                    <span id="bumpLabel" class="ms-1 text-xl font-medium text-white dark:text-gray-300">Bump</span>
+                                </label>
+                            </div>  
+                        </div>                        
                     </div>
                 </div>
             </div>
