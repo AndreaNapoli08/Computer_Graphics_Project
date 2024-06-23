@@ -1,81 +1,80 @@
-/* Aggiungi al CSS esistente */
+/* CSS per rendere il progetto responsive */
 
 header {
   height: 62px;
-  background-color: #005eff; /* Colore di sfondo per l'header */
+  background-color: #005eff;
   color: #fff;
   text-align: center;
   padding: 10px 0;
-  border-bottom: 2px solid #fff; /* Linea inferiore bianca */
+  border-bottom: 2px solid #fff;
 }
-
 
 footer {
   height: 62px;
-  background-color: #005eff; /* Colore di sfondo per il footer */
+  background-color: #005eff;
   color: #fff;
   text-align: center;
   padding: 10px 0;
-  border-top: 2px solid #fff; /* Linea superiore bianca */
+  border-top: 2px solid #fff;
 }
 
 .menu {
-  width: 23%; /* Aumenta la larghezza del menu dal 20% al 25% */
+  width: 23%;
   background-color: #628fdd;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Aggiunta ombra */
-  font-family: Arial, sans-serif; /* Cambiato il font */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra gli elementi orizzontalmente */
+  align-items: center;
 }
 
 .menu h2 {
-  font-size: 2em; /* Dimensione del titolo */
-  margin-bottom: 15px; /* Spazio inferiore */
+  font-size: 2em;
+  margin-bottom: 15px;
   font-weight: bold;
 }
 
 .input-group {
-  margin-bottom: 3px; /* Spazio inferiore */
-  width: 100%; /* Rende gli input a larghezza completa */
+  margin-bottom: 3px;
+  width: 100%;
 }
 
 .input-group label {
-  display: block; /* Rendi il label un blocco */
-  font-size: 1.2em; /* Dimensione del testo */
+  display: block;
+  font-size: 1.2em;
   color: white;
   text-align: center;
 }
 
-.checkbox-container{
+.checkbox-container {
   margin-top: 10px;
 }
 
 .input-group input[type="range"] {
-  width: 100%; /* Larghezza completa */
-  padding: 5px; /* Spaziatura interna */
-  border-radius: 5px; /* Bordi arrotondati */
-  border: 1px solid #ccc; /* Bordo */
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .input-group input[type="color"] {
-  appearance: none; /* Nascondi l'aspetto nativo */
+  appearance: none;
 }
 
 .button-container {
   display: flex;
-  flex-direction: column; /* Disporre i pulsanti in colonna */
-  align-items: center; /* Centra gli elementi all'interno del contenitore */
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
 .button-row {
   display: flex;
-  justify-content: center; /* Centra i pulsanti orizzontalmente */
-  gap: 10px; /* Spazio tra i pulsanti */
-  margin-top: 10px; /* Spazio superiore tra il pulsante W e la riga di pulsanti */
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .commandButton,
@@ -93,7 +92,7 @@ footer {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
-  margin-bottom: 5px; 
+  margin-bottom: 5px;
   margin-left: 5px;
 }
 
@@ -122,23 +121,74 @@ p {
   font-weight: bold;
 }
 
-  /* Media Query per la responsività */
-  @media (max-width: 768px) {
-    .flex-1 {
-      flex-direction: column;
-    }
-  
-    .menu {
-      width: 100%;
-      max-width: none;
-      margin: 20px 0;
-    }
-  
-    canvas {
-      width: 100%;
-    }
-  
-    header p, footer p {
-      font-size: 20px;
-    }
+/* Media query per schermi fino a 1024px */
+@media (max-width: 1700px) {
+
+  canvas {
+    width: 100%; 
   }
+
+  .menu {
+    width: 30%;
+    background-color: #628fdd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: none;
+    margin: 20px 0;
+  }
+
+  .commandButton,
+  .commandButtonSprint {
+    padding: 10px 20px;
+    font-size: 20px;
+  }
+
+  .input-group label {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 1300px) {
+  canvas {
+    width: 70%; 
+  }
+
+  .menu {
+    width: 60%;
+    max-width: none;
+    margin: 20px 0;
+  }
+
+  .commandButton,
+  .commandButtonSprint {
+    padding: 10px 20px;
+    font-size: 20px;
+  }
+
+  .input-group label {
+    font-size: 1em;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .flex-1 {
+    flex-direction: column;
+  }
+
+  .menu {
+    width: 100%;
+    max-width: none;
+    margin: 20px 0;
+  }
+
+  canvas {
+    width: 100%;
+  }
+}
+
