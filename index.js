@@ -652,6 +652,9 @@ const keys = {
   ArrowRight: false
 };
 
+let mouseDown = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
 
 // Event listeners per i tasti
 window.addEventListener('keydown', handleKeyDown);
@@ -692,6 +695,44 @@ document.querySelectorAll(".commandButton").forEach(function(button) {
     updateCameraPosition();
   });
 });
+
+
+// Event listeners per il mouse
+window.addEventListener('mousedown', (event) => {
+  mouseDown = true;
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+});
+
+window.addEventListener('mouseup', () => {
+  mouseDown = false;
+});
+
+window.addEventListener('mousemove', (event) => {
+  if (mouseDown) {
+    const deltaX = event.clientX - lastMouseX;
+    const deltaY = event.clientY - lastMouseY;
+    lastMouseX = event.clientX;
+    lastMouseY = event.clientY;
+    updateCameraPositionWithMouse(deltaX, deltaY);
+  }
+});
+
+// Funzione per aggiornare la posizione della camera in base al movimento del mouse
+function updateCameraPositionWithMouse(deltaX, deltaY) {
+  const rotationSpeed = 0.0001; // Velocità di rotazione della camera
+
+  // Ruota la camera in base al movimento del mouse
+  m4.yRotate(cameraPositionMain, deltaX * rotationSpeed, cameraPositionMain);
+  m4.xRotate(cameraPositionMain, deltaY * rotationSpeed, cameraPositionMain);
+
+  // Ruota anche la navicella
+  m4.zRotate(spaceshipCamera, degToRad(-deltaX * rotationSpeed), spaceshipCamera);
+  m4.xRotate(spaceshipCamera, degToRad(-deltaY * rotationSpeed), spaceshipCamera);
+
+  initialSpaceshipRotation += deltaX * rotationSpeed;
+}
+
 
 
 // Funzione per aggiornare la posizione della camera in base ai tasti premuti

@@ -100,22 +100,7 @@ function main() {
   var cameraYRotationRadians = degToRad(50);
   var cameraXRotationRadians = degToRad(-20); // Aggiunta variabile per la rotazione sull'asse X
 
-  var keys = {};
-  
-  // Gestisci l'evento keydown
-  window.addEventListener("keydown", function(event) {
-    keys[event.key] = true;
-    updateCameraPosition();
-  });
-
-  // Gestisci l'evento keyup
-  window.addEventListener("keyup", function(event) {
-    keys[event.key] = false;
-    updateCameraPosition();
-  });
-
   requestAnimationFrame(drawScene);
-
 
   // Draw the scene.
   function drawScene() {
@@ -180,27 +165,6 @@ function main() {
     gl.drawArrays(gl.TRIANGLES, 0, 1 * 6);
 
     requestAnimationFrame(drawScene);
-  }
-
-  // Aggiorna la posizione della skybox in base ai tasti premuti
-  function updateCameraPosition() {
-    if (keys['ArrowUp']) {
-      //if(cameraXRotationRadians<-0.0349065850398865){
-        cameraXRotationRadians += degToRad(1); // Incrementa la rotazione verso l'alto
-      //}
-    }
-    if (keys['ArrowDown']) {
-      console.log("giu");
-      //if(cameraXRotationRadians>-0.6108652381980156){
-        cameraXRotationRadians -= degToRad(1); // Incrementa la rotazione verso il basso
-      //} 
-    }
-    if (keys['ArrowLeft']) {
-      cameraYRotationRadians += degToRad(1); // Incrementa la rotazione verso sinistra
-    }
-    if (keys['ArrowRight']) {
-      cameraYRotationRadians -= degToRad(1); // Incrementa la rotazione verso destra
-    }
   }
 
 }
