@@ -11,8 +11,7 @@ let lighty = 50;
 let lightz = 50;
 
 let velocity = 10
-var spaceshipCamera = m4.identity()
-let initialSpaceshipRotation = 0
+var planeCamera = m4.identity()
 var sound_plane = new Audio('aereo.mp3');
 var turbo_plane = new Audio('turbo.mp3');
 let positionBirdChange = false;
@@ -67,8 +66,6 @@ shadowCheckbox.addEventListener('change', function() {
 bumpCheckbox.addEventListener('change', function() {
   bumpEnabled = bumpCheckbox.checked;
 });
-
-
 
 function sprint(){
   var button = document.getElementById('buttonSprint');
@@ -292,7 +289,6 @@ function parseMTL(text) {
     }
     handler(parts, unparsedArgs);
   }
-
   return materials;
 }
 
@@ -390,7 +386,7 @@ function generateTangents(position, texcoord, indices) {
   return tangents;
 }
 
-async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, spaceship, velocity,reflection, dirigibile, bird, airBaloon, superman) {
+async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition, plane, velocity, dirigibile, bird, airBaloon, superman) {
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
   const canvas = document.querySelector("#canvas");
@@ -605,8 +601,6 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
     return { min, max };
   }
 
-
-
   function getGeometriesExtents(geometries) {
     return geometries.reduce(({ min, max }, { data }) => {
       const minMax = getExtents(data.position);
@@ -630,9 +624,6 @@ async function loadModel(objHref, resizeObj,positionObj,rotation,rotatePosition,
     -1);
   const radius = m4.length(range) * 0.5;
 
-
-  // Set zNear and zFar to something hopefully appropriate
-  // for the size of this object.
   const zNear = radius / 100;
   const zFar = radius * 1000000;
 
@@ -663,7 +654,7 @@ window.addEventListener('keyup', handleKeyUp);
 function handleKeyDown(event) {
   const key = event.key.toLowerCase();
     keys[key] = true;
-    if(spaceship){
+    if(plane){
       updateCameraPosition();
     }
 }
@@ -698,17 +689,17 @@ document.querySelectorAll(".commandButton").forEach(function(button) {
 
 
 // Event listeners per il mouse
-window.addEventListener('mousedown', (event) => {
+canvas.addEventListener('mousedown', (event) => {
   mouseDown = true;
   lastMouseX = event.clientX;
   lastMouseY = event.clientY;
 });
 
-window.addEventListener('mouseup', () => {
+canvas.addEventListener('mouseup', () => {
   mouseDown = false;
 });
 
-window.addEventListener('mousemove', (event) => {
+canvas.addEventListener('mousemove', (event) => {
   if (mouseDown) {
     const deltaX = event.clientX - lastMouseX;
     const deltaY = event.clientY - lastMouseY;
@@ -727,10 +718,7 @@ function updateCameraPositionWithMouse(deltaX, deltaY) {
   m4.xRotate(cameraPositionMain, deltaY * rotationSpeed, cameraPositionMain);
 
   // Ruota anche la navicella
-  m4.zRotate(spaceshipCamera, degToRad(-deltaX * rotationSpeed), spaceshipCamera);
-  m4.xRotate(spaceshipCamera, degToRad(-deltaY * rotationSpeed), spaceshipCamera);
-
-  initialSpaceshipRotation += deltaX * rotationSpeed;
+  m4.xRotate(planeCamera, degToRad(-deltaY * rotationSpeed), planeCamera);
 }
 
 
@@ -766,44 +754,29 @@ function updateCameraPosition() {
   // comandi da tastiera
   if (keys['arrowup']) {
     m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
-    initialSpaceshipRotation -= 0.1
+    
   }
   if (keys['arrowdown']) {
     m4.xRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
-    initialSpaceshipRotation += 0.1
   }
   if (keys['arrowleft']) {
     m4.yRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
-    initialSpaceshipRotation -= 0.1
   }
   if (keys['arrowright']) {
     m4.yRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
-    initialSpaceshipRotation += 0.1
   }
   // comandi sul menù 
   if (keys['ArrowUp']) {
     m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
-    initialSpaceshipRotation -= 0.1
   }
   if (keys['ArrowDown']) {
     m4.xRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
-    initialSpaceshipRotation += 0.1
   }
   if (keys['ArrowLeft']) {
     m4.yRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
-    initialSpaceshipRotation -= 0.1
   }
   if (keys['ArrowRight']) {
     m4.yRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
-    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
-    initialSpaceshipRotation += 0.1
   }
 }
 
@@ -937,11 +910,11 @@ function render(time) {
     u_bumpEnabled: bumpEnabled ? 1 : 0,
     u_view: viewMatrixMain,
     u_projection: projection,
-    u_viewWorldPosition: spaceshipCamera,
+    u_viewWorldPosition: planeCamera,
   }; 
 
-  if(spaceship){
-    viewMatrixMain = m4.inverse(spaceshipCamera);
+  if(plane){
+    viewMatrixMain = m4.inverse(planeCamera);
     sharedUniforms = {
       u_lightDirection: m4.normalize([-1, 3, 5]),
       u_lightsEnabled: lightsEnabled ? 1 : 0, 
@@ -949,17 +922,10 @@ function render(time) {
       u_bumpEnabled: bumpEnabled ? 1 : 0,
       u_view: viewMatrixMain,
       u_projection: projection,
-      u_viewWorldPosition: spaceshipCamera,
+      u_viewWorldPosition: planeCamera,
     };
   } 
   
-  if(initialSpaceshipRotation > 0){
-      m4.zRotate(spaceshipCamera, degToRad(-0.1), spaceshipCamera);
-      initialSpaceshipRotation -= 0.1
-  } else if(initialSpaceshipRotation < 0) {
-    m4.zRotate(spaceshipCamera, degToRad(0.1), spaceshipCamera);
-    initialSpaceshipRotation += 0.1
-  }
 
 
   gl.useProgram(meshProgramInfo.program);
@@ -999,33 +965,33 @@ function render(time) {
 }
 
 // percorso anelli
-loadModel("object/ring/ring.obj",3000,[0,2000,-20000],0,[0,120,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[15000,0,-20000],0,[0,260,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[30000,2000,-20000],0,[0,260,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[45000,0,-17000],0,[0,70,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[60000,-2000,-10000],0,[0,50,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[78000,-4000,0],0,[0,30,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[80000,0,12000],0,[0,10,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[75000,0,24000],0,[0,-10,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[65000,1000,35000],0,[0,-30,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[55000,0,42000],0,[0,-40,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[45000,-2000,50000],0,[0,-70,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[30000,0,48000],0,[0,-80,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[20000,0,42000],0,[0,90,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[8000,0,42000],0,[0,90,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[1000,0,37000],0,[0,90,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[-8000,2000,33000],0,[0,90,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[-15000,-2000,25000],0,[0,-120,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[-22000,0,18000],0,[0,-140,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[-20000,1000,6000],0,[0,-160,0],false,10,false, false,false, false, false);
-loadModel("object/ring/ring.obj",3000,[-15000,0,-10000],0,[0,180,0],false,10,false, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[0,2000,-20000],0,[0,120,0],false,10,false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[15000,0,-20000],0,[0,260,0],false,10,false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[30000,2000,-20000],0,[0,260,0],false,10,false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[45000,0,-17000],0,[0,70,0],false,10,false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[60000,-2000,-10000],0,[0,50,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[78000,-4000,0],0,[0,30,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[80000,0,12000],0,[0,10,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[75000,0,24000],0,[0,-10,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[65000,1000,35000],0,[0,-30,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[55000,0,42000],0,[0,-40,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[45000,-2000,50000],0,[0,-70,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[30000,0,48000],0,[0,-80,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[20000,0,42000],0,[0,90,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[8000,0,42000],0,[0,90,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[1000,0,37000],0,[0,90,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[-8000,2000,33000],0,[0,90,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[-15000,-2000,25000],0,[0,-120,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[-22000,0,18000],0,[0,-140,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[-20000,1000,6000],0,[0,-160,0],false,10, false,false, false, false);
+loadModel("object/ring/ring.obj",3000,[-15000,0,-10000],0,[0,180,0],false,10, false,false, false, false);
 
 // vari oggetti
-loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10,false, false,false, false, false);
-loadModel("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10,false, false,false, false, false);
-loadModel("object/dirigibile2/dirigibile.obj",6000,[10,-200,-10000],0,[0,160,0],false,10,false, true,false, false, false);
-loadModel("object/uccello/bird.obj",50,[5000,-500,30000],0,[0,90,0],false,10,false, false, true, false, false);
-loadModel("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,10,false, false, false, false, false);
-loadModel("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10,false, false, false, true, false);
-loadModel("object/superman/superman.obj",2000,[36000,0,48000],0.0001,[0,90,0],false,10,false, false,false, false, true);
+loadModel("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10, false,false, false, false);
+loadModel("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10, false,false, false, false);
+loadModel("object/dirigibile2/dirigibile.obj",6000,[10,-200,-10000],0,[0,160,0],false,10, true,false, false, false);
+loadModel("object/uccello/bird.obj",50,[5000,-500,30000],0,[0,90,0],false,10, false, true, false, false);
+loadModel("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,10, false, false, false, false);
+loadModel("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10, false, false, true, false);
+loadModel("object/superman/superman.obj",2000,[36000,0,48000],0.0001,[0,90,0],false,10, false,false, false, true);
 
