@@ -106,7 +106,7 @@
         void main() {
             vec4 t = u_viewDirectionProjectionInverse * v_position;
             gl_FragColor = textureCube(u_skybox, normalize(t.xyz / t.w));
-        }
+        }   
     </script>
 
     <!-- WEBGL LIB -->
@@ -115,9 +115,17 @@
     <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- EXTERNAL CODE JS -->
     <script src="index.js"></script>
     <script src="skybox.js"></script>
-    <!--<script src="fileObj.js"></script>-->
+    <!--
+    <script src="index2.js"></script>
+    <script src="skybox.js"></script>
+    <script src="js/uiControls.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/objects3D.js"></script>
+    <script src="js/parsers.js"></script>
+    <script src="js/shaders.js"></script>
+    <script src="js/textures.js"></script>
+    -->
 </body>
 </html>

@@ -16,6 +16,7 @@ var sound_plane = new Audio('aereo.mp3');
 var turbo_plane = new Audio('turbo.mp3');
 let positionBirdChange = false;
 let positionSupermanChange = false;
+
 let buttonSprint = false;
 
 const fovInput = document.getElementById('fov');
@@ -987,11 +988,11 @@ loadObj("object/ring/ring.obj",3000,[-20000,1000,6000],0,[0,-160,0],false,10, fa
 loadObj("object/ring/ring.obj",3000,[-15000,0,-10000],0,[0,180,0],false,10, false,false, false, false);
 
 // vari oggetti
-loadObj("object/plane/plane2/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10, false,false, false, false);
+loadObj("object/plane/plane.obj",10,[0,-100,-400],0,[0,180,0],true,10, false,false, false, false);
 loadObj("object/stella/SimpleStar.obj",10000,[30000,0,15000],0.001,[180,90,90],false,10, false,false, false, false);
-loadObj("object/dirigibile2/dirigibile.obj",6000,[10,-200,-10000],0,[0,160,0],false,10, true,false, false, false);
+loadObj("object/dirigibile/dirigibile.obj",6000,[10,-200,-10000],0,[0,160,0],false,10, true,false, false, false);
 loadObj("object/uccello/bird.obj",50,[5000,-500,30000],0,[0,90,0],false,10, false, true, false, false);
 loadObj("object/ironman/ironman.obj",2000,[3000,-200,40000],0,[0,90,0],false,10, false, false, false, false);
-loadObj("object/mongolfiera2/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10, false, false, true, false);
+loadObj("object/mongolfiera/mongolfiera.obj",2500,[52000,0,-15000],0,[0,90,0],false,10, false, false, true, false);
 loadObj("object/superman/superman.obj",2000,[36000,0,48000],0.0001,[0,90,0],false,10, false,false, false, true);
 
