@@ -1,0 +1,190 @@
+/* CSS per rendere il progetto responsive */
+
+header {
+  height: 62px;
+  background-color: #005eff;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #fff;
+}
+
+footer {
+  height: 62px;
+  background-color: #005eff;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 2px solid #fff;
+}
+
+.menu {
+  width: 23%;
+  background-color: #628fdd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.input-group {
+  margin-bottom: 3px;
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  font-size: 1.2em;
+  color: white;
+  text-align: center;
+}
+
+.checkbox-container {
+  margin-top: 10px;
+}
+
+.input-group input[type="range"] {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.input-group input[type="color"] {
+  appearance: none;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.commandButton,
+.commandButtonSprint {
+  background-color: #005eff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 25px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.commandButton:hover,
+.commandButtonSprint:hover {
+  background-color: #004bcc;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.commandButton:active,
+.commandButtonSprint:active {
+  background-color: #003a99;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(0);
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+}
+
+p {
+  font-size: 25px;
+  font-family: "Arial";
+  font-weight: bold;
+}
+
+/* Media query per schermi fino a 1024px */
+@media (max-width: 1700px) {
+  canvas {
+    width: 100%; 
+  }
+
+  .menu {
+    width: 30%;
+    background-color: #628fdd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: none;
+  }
+
+  .commandButton,
+  .commandButtonSprint {
+    padding: 10px 20px;
+    font-size: 20px;
+  }
+
+  .input-group label {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 1300px) {
+  canvas {
+    width: 70%; 
+  }
+
+  .menu {
+    width: 60%;
+    max-width: none;
+  }
+
+  .commandButton,
+  .commandButtonSprint {
+    padding: 10px 20px;
+    font-size: 20px;
+  }
+
+  .input-group label {
+    font-size: 1em;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .flex-1 {
+    flex-direction: column;
+  }
+
+  .menu {
+    width: 100%;
+    max-width: none;
+    margin: 20px 0;
+  }
+
+  canvas {
+    width: 100%;
+  }
+}

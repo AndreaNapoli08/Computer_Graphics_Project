@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relazione Progetto Computer Graphics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <h1>Relazione Progetto Computer Graphics</h1>
+        <p>Andrea Napoli - 0001136753</p>
+        <p>Laurea Magistrale in Informatico A.A. 2023/2024</p>
+    </header>
+    <nav>
+        <ul class="text-xl">
+            <li><a href="#introduzione">Introduzione</a></li>
+            <li><a href="#struttura">Struttura del progetto</a></li>
+            <li><a href="#interfaccia">Interfaccia</a></li>
+            <li><a href="#loadObj">Caricamento degli oggetti</a></li>
+            <li><a href="#feature">Feature opzionali</a></li>
+            <li><a href="#bump">Rendering avanzato</a></li>
+        </ul>
+    </nav>
+
+    <div id="accordion-arrow-icon" data-accordion="open"
+        data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+        <h1 id="introduzione" class="text-3xl">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelIntroduzione" aria-expanded="true" aria-controls="labelIntroduzione">
+                <span>Introduzione</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelIntroduzione" class="hidden" aria-labelledby="introduzione">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    Per il corso di Computer Graphics è stato sviluppato un progetto che mira a
+                    combinare le competenze acquisite durante il corso con l'utilizzo pratico delle tecnologie moderne
+                    di grafica 3D.
+                    Il progetto consiste nella realizzazione di una scena tridimensionale
+                    interattiva in cui un aereo si muove all'interno di una skybox, attraversando
+                    vari oggetti 3D come anelli, dirigibili, mongolfiere e altri elementi di
+                    scenario. Tutti questi elementi sono in formato obj e vengono caricati con
+                    un metodo specifico. Il progetto è stato sviluppato con HTML, CSS e Javascript
+                    con il contesto WebGL.</p>
+            </div>
+        </div>
+
+        <h1 id="struttura" class="text-3xl font-bold">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelStruttura" aria-expanded="true" aria-controls="labelStruttura">
+                <span>Struttura del progetto</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelStruttura" class="hidden" aria-labelledby="struttura">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    All'interno della repository del progetto sono presenti due cartelle:
+                <ul class="text-xl space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
+                    <li><b><i class="text-gray-900">doc</i></b>: è la cartella che contiene i file relativi alla
+                        documentazione
+                    </li>
+                    <li><b><i class="text-gray-900">project</i></b>:
+                        <ul style="padding-left: 40px;" class="list-disc list-inside">
+                            <li><b><i class="text-gray-900">audio</i></b>: contiene i file audio dell'accelerazione dell'aereo</li>
+                            <li><b><i class="text-gray-900">skybox</i></b>: contiene le sei imamgini che formeranno la skybox di sfondo</li>
+                            <li><b><i class="text-gray-900">object</i></b>: contiene tutti gli oggetti presenti all'interno del progetto:
+                            l'aereo che è l'elemento principale, gli anelli in cui deve passare, gli altri oggetti presenti tra gli anelli come
+                            uno space shuttle, una mongolfiera, superman e ironman. Inoltre al centro del percorso è presente una stella sulla quale c'è
+                            la mia foto ed è stata applicata la tecnica del bump. <br>Ogni oggetto ha la propria cartella contenente il file obj e il relativo
+                            file mtl che contiene le configurazioni dell'oggetto e le varie immagini che vengono applicate come texture. </li>
+                            <li><b><i class="text-gray-900">js</i></b>: contiene tutti gli script utilizzati. E' suddiviso in:
+                                <ul style="padding-left: 60px;" class="list-disc list-inside">
+                                    <li>main.js</li>
+                                    <li>objects3D.js</li>
+                                    <li>parsers.js</li>
+                                    <li>shaders.js</li>
+                                    <li>skybox.js</li>
+                                    <li>textures.js</li>
+                                    <li>uiControl.js</li>
+                                </ul>
+                            </li>
+                            <li><b><i class="text-gray-900">index.html</i></b>: è il file principale che contiene la struttura della pagina e il collegamento a tutti gli script e al foglio di stile. </li>
+                            <li><b><i class="text-gray-900">index.css</i></b>: è stato utilizzato per rendere l'interfaccia grafica della pagina principale più piacevole.</li>
+                            <li><b><i class="text-gray-900">index.js</i></b>: </li>
+                        </ul>
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <h1 id="interfaccia" class="text-3xl font-bold">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelInterfaccia" aria-expanded="true" aria-controls="labelInterfaccia">
+                <span>Interfaccia</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelInterfaccia" class="hidden" aria-labelledby="interfaccia">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    L'interfaccia è composta da un header, un footer e al centro è divisa in due parti: a sinistra c'è la finestra
+                    di canvas che mostra il funzionamento del progetto e sulla destra è presente un menù laterale che contiene
+                    i comandi utilizzabili per muoversi all'interno dello scenario. 
+                </p>
+                <img src="img/interfaccia.png" alt="interfaccia" class="img" style="width:1000px;height:500px;">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    All'interno del menù possiamo trovare i seguenti comandi:
+                </p>
+                    <ul style="padding-left: 20px;" class="list-disc list-inside mb-2 text-xl text-gray-500 dark:text-gray-400">
+                        <li><b><i class="text-gray-900">Fov</i></b>: permette di allontanare e avvicinare la telecamera all'aereo </li>
+                        <li><b><i class="text-gray-900">Light x</i></b>: sposta la direzione della luce rispetto all'asse x</li>
+                        <li><b><i class="text-gray-900">Light y</i></b>: sposta la direzione della luce rispetto all'asse y</li>
+                        <li><b><i class="text-gray-900">Light z</i></b>: sposta la direzione della luce rispetto all'asse z</li>
+                        <li><b><i class="text-gray-900">W</i></b>: fa muovere l'aereo in avanti</li>
+                        <li><b><i class="text-gray-900">A</i></b>: fa muovere l'aereo verso sinistra</li>
+                        <li><b><i class="text-gray-900">D</i></b>: fa muovere l'aereo verso destra</li>
+                        <li><b><i class="text-gray-900">S</i></b>: fa muovere l'aereo all'indietro</li>
+                        <li><b><i class="text-gray-900">Sprint</i></b>: se è premuto permette all'aereo di muoversi più velocemente. Inoltre può essere attivato anche premendo lo spazio dalla tastiera</li>
+                        <li><b><i class="text-gray-900">⮕</i></b>: fa muovere la telecamera verso destra</li>
+                        <li><b><i class="text-gray-900">⬅</i></b>: fa muovere la telecamera verso sinistra</li>
+                        <li><b><i class="text-gray-900">⬇</i></b>: fa muovere la telecamera verso il basso</li>
+                        <li><b><i class="text-gray-900">⬆</i></b>: fa muovere la telecamera verso l'alto</li>
+                        <li><b><i class="text-gray-900">Light</i></b>: permette di accendere e spegnere le luci</li>
+                        <li><b><i class="text-gray-900">Shadow</i></b>: permette di abilitare o disabilitare le ombre sugli oggetti</li>
+                        <li><b><i class="text-gray-900">Bump</i></b>: abilita o disabilita il bump applicato sulla stella</li>
+                    </ul>
+                    <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                        Aggiungiamo inoltre che una valida alternativa alle freccette per muovere la telecamera nello scenario è l'utilizzo del mouse.
+                    </p>
+            </div>
+        </div>
+
+        <h1 id="loadObj" class="text-3xl font-bold">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelLoadObj" aria-expanded="true" aria-controls="labelLoadObj">
+                <span>Caricamento degli oggetti</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelLoadObj" class="hidden" aria-labelledby="loadObj">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    La funzione <i><b class="text-gray-900">loadObj</b></i> è la funzione principale del progetto che si occupa di caricare e visualizzare gli
+                    oggetti 3D partendo dal file obj. il funzionamento generale può essere suddiviso in diverse parti:
+                    <ul style="padding-left: 20px;" class="list-decimal list-inside mb-2 text-xl text-gray-500 dark:text-gray-400">
+                        <li><b class="text-gray-900">Inizializzazione del contesto WebGL</b>: 
+                            viene selezionato l'elemento canvas e viene ottenuto il contesto WebGL, che è necessario per eseguire rendering 3D.</li>
+                        <li><b class="text-gray-900">Compilazione degli shader</b>: 
+                            vengono definiti gli shader, il <b class="text-gray-900">vertex shader (vs)</b> e il <b class="text-gray-900">fragment shader (fs)</b> vengono scritti in GLSL.
+                            Gli shader vengono compilati e collegati in un programma WebGL tramite la funzione <b class="text-gray-900">createProgramInfo</b>
+                        </li>
+                        <li><b class="text-gray-900">Caricamento e parsing del file obj</b>:
+                            viene effettuata una richiesta fetch per ottenere il file .obj dal percorso specificato <b class="text-gray-900">(objHref)</b>.
+                            Il file obj viene parsato per ottenere le geometrie e i materiali associati. Se il file obj fa riferimento a materiali esterni (file .mtl), vengono caricati e parsati anche questi.
+                        </li>
+                        <li><b class="text-gray-900">Creazione e caricamento delle texture</b>:
+                            vengono create texture di default. Per ogni materiale del file mtl, se sono presenti mappe di texture (diffuseMap, normalMap, ecc...), queste vengono caricate e assegnate ai rispettivi materiali.
+                        </li>
+                        <li><b class="text-gray-900">Preparazione dei buffer</b>:
+                            Per ogni geometria del file obj, vengono create le informazioni di buffer necessarie per memorizzare i dati sui vertici (posizione, colore, normali, coordinate texture, tangenti). Viene creata una struttura di buffer <b class="text-gray-900">(bufferInfo)</b> utilizzando <b class="text-gray-900">createBufferInfoFromArrays</b>.
+                        </li>
+                        <li><b class="text-gray-900">Calcolo delle estensioni degli oggetti</b>:
+                            vengono calcolate le estensioni minime e massime delle geometrie per determinare il centro <b class="text-gray-900">(objOffset)</b> e il raggio <b class="text-gray-900">(radius)</b> dell'oggetto.
+                            Questi calcoli sono utili per posizionare e scalare correttamente l'oggetto nella scena.
+                        </li>
+                        <li><b class="text-gray-900">Gestione degli input utenti</b>:
+                            vengono aggiunti listener per gli eventi della tastiera e del mouse per consentire il controllo della camera e degli oggetti.
+                            Le funzioni <b class="text-gray-900">handleKeyDown</b> e <b class="text-gray-900">handleKeyUp</b> gestiscono i movimenti della camera e l'aggiornamento della posizione basati sui tasti premuti.
+                        </li>
+                        <li><b class="text-gray-900">Rendering e animazione</b>:
+                            viene definita la funzione render, che esegue il <b class="text-gray-900">rendering</b> dell'oggetto sulla scena.
+                            La funzione render viene chiamata ripetutamente tramite <b class="text-gray-900">requestAnimationFrame</b> per creare un loop di rendering continuo.
+                            La funzione gestisce anche l'animazione degli oggetti, come lo spostamento in base al tempo.
+                        </li>       
+                        <li><b class="text-gray-900">Manipolazione degli oggetti</b>:
+                            le funzioni <b class="text-gray-900">resizeObject</b>, <b class="text-gray-900">moveObject</b> e <b class="text-gray-900">rotateObject</b> vengono utilizzate per ridimensionare, spostare e ruotare l'oggetto nel mondo 3D.
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <h1 id="feature" class="text-3xl font-bold">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelFeature" aria-expanded="true" aria-controls="labelFeature">
+                <span>Feature Opzionali</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelFeature" class="hidden" aria-labelledby="feature">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    Sono state implementate due feature opzionali:
+                    <ul style="padding-left: 20px;" class="list-decimal list-inside mb-2 text-xl text-gray-500 dark:text-gray-400">
+                        <li><b class="text-gray-900">Audio</b>: 
+                            sono stati utilizzati due tipi di audio per rendere lo scenario ancora più realistico. Un primo audio che viene utilizzato per il motore dell'aereo quando si muove normalmente
+                            e un secondo audio utilizzato per simulare il motore dell'aereo quando si muove più velocemente tramite la funzione di Sprint.
+                        </li>
+                        <li><b class="text-gray-900">Light</b>: 
+                            è possibile attivare o disattivare le luci per visualizzare gli oggetti senza colori.
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <h1 id="bump" class="text-3xl font-bold">
+            <button type="button"
+                class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                data-accordion-target="#labelBump" aria-expanded="true" aria-controls="labelBump">
+                <span>Rendering Avanazato</span>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5 5 1 1 5" />
+                </svg>
+            </button>
+        </h1>
+        <div id="labelBump" class="hidden" aria-labelledby="bump">
+            <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+</body>
+
+</html>
