@@ -20,7 +20,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-o4qsgroy\\4df9430526b37b38.jpg
 
 newmtl *16.001
 Ns 143.999983
@@ -51,7 +50,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-kjhggpi3\\ce2628ca91e9582c.jpg
 
 newmtl *50.001
 Ns 900.000000
@@ -92,7 +90,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-abzdxl3l\\3041d4430adf5b25.jpg
 
 newmtl *8.001
 Ns 143.999983
@@ -103,7 +100,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-zgieymkn\\ce2632ca91e9692a.jpg
 
 newmtl 0132_LightGray.001
 Ns 143.999983
@@ -344,7 +340,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-iq2vce_l\\8a98e9949e208f5.jpg
 
 newmtl Steve_Book.001
 Ns 224.362141
@@ -575,7 +570,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd C:\\Users\\HP\\AppData\\Local\\Temp\\gltfimg-e8bj66kz\\5a029b0450661f0f.jpg
 
 newmtl wing1.001
 Ns 900.000000
