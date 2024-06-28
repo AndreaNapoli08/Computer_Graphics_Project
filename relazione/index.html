@@ -229,7 +229,9 @@
                             e un secondo audio utilizzato per simulare il motore dell'aereo quando si muove più velocemente tramite la funzione di Sprint.
                         </li>
                         <li><b class="text-gray-900">Light</b>: 
-                            è possibile attivare o disattivare le luci per visualizzare gli oggetti senza colori.
+                            è possibile attivare o disattivare le luci per visualizzare gli oggetti senza colori. Quando la luce viene accesa, il fragment shader calcola
+                            l'illuminazione ambientale, l'illuminazione diffusa e l'illuminazione speculare, per poi applicarli su ogni pixel dell'oggetto simulando
+                            un'illuminazione realistica, tenendo conto sia della luce ambientale che di quella direzionale. Se invece la luce è disattivata non fa altro che mettere tutti i pixel in nero.
                         </li>
                     </ul>
                 </p>
@@ -251,7 +253,19 @@
         <div id="labelBump" class="hidden" aria-labelledby="bump">
             <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                 <p class="mb-2 text-xl text-gray-500 dark:text-gray-400">
-                    
+                    Entrambe le tecniche utilizzate sono state implementate e gestite all'interno del fragment shader (fs). 
+                    Le due tecniche di rendering avanzato presenti all'interno del progetto sono l'abilitazione delle ombre e l'abilitazione dell'effetto bump mapping.
+                    <ul style="padding-left: 20px;" class="list-decimal list-inside mb-2 text-xl text-gray-500 dark:text-gray-400">
+                        <li><b class="text-gray-900">Shadow</b>: 
+                            quando le ombre sono attivate, tramite la rispettiva variabile modificabile dall'interfaccia, 
+                            il codice calcola come la luce colpisce la superficie e determina le aree illuminate e quelle in ombra.
+                            Usa le normali della superficie per capire come la luce si riflette e calcola la luce diffusa (quanto è illuminata una superficie) e la luce speculare.
+                        </li>
+                        <li><b class="text-gray-900">Bump mapping</b>: 
+                            quando viene attivato, il codice usa una texture (normal map) per perturbare le normali della superficie, creando l'illusione di dettagli sulla superficie.
+                            La normale perturbata cambia come la luce si riflette, facendo sembrare la superficie più dettagliata senza aumentare la complessità del modello 3D.
+                        </li>
+                    </ul>
                 </p>
             </div>
         </div>

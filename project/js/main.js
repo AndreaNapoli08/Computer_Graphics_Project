@@ -1,12 +1,7 @@
-import { vs, fs } from './shaders.js';
-import { createTexture, create1PixelTexture, isPowerOf2 } from './textures.js';
-import { generateTangents, makeIndexIterator, makeUnindexedIterator } from './objects3D.js';
-import { parseOBJ, parseMTL } from './parsers.js';
-import { cameraPositionMain, planeCamera } from '../index2.js';
-import { state } from '../index2.js';
+
 
 let viewMatrixMain;
-export async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition, plane, velocity, spaceShuttle, bird, airBaloon, superman) {
+ async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition, plane, velocity, spaceShuttle, bird, airBaloon, superman) {
   // Get A WebGL context
     /** @type {HTMLCanvasElement} */
     const canvas = document.querySelector("#canvas");

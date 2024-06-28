@@ -1,4 +1,4 @@
-export function create1PixelTexture(gl, pixel) {
+ function create1PixelTexture(gl, pixel) {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
@@ -6,7 +6,7 @@ export function create1PixelTexture(gl, pixel) {
     return texture;
   }
   
-export function createTexture(gl, url) {
+ function createTexture(gl, url) {
     const texture = create1PixelTexture(gl, [128, 192, 255, 255]);
     // Asynchronously load an image
     const image = new Image();
@@ -31,6 +31,6 @@ export function createTexture(gl, url) {
     return texture;
   }
 
-export function isPowerOf2(value) {
+ function isPowerOf2(value) {
     return (value & (value - 1)) === 0;
 }

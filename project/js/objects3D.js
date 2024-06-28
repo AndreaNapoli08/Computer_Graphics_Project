@@ -1,4 +1,4 @@
-export function generateTangents(position, texcoord, indices) {
+ function generateTangents(position, texcoord, indices) {
     const getNextIndex = indices ? makeIndexIterator(indices) : makeUnindexedIterator(position);
     const numFaceVerts = getNextIndex.numElements;
     const numFaces = numFaceVerts / 3;
@@ -37,7 +37,7 @@ export function generateTangents(position, texcoord, indices) {
     return tangents;
 }
 
-export function makeIndexIterator(indices) {
+ function makeIndexIterator(indices) {
     let ndx = 0;
     const fn = () => indices[ndx++];
     fn.reset = () => { ndx = 0; };
@@ -45,7 +45,7 @@ export function makeIndexIterator(indices) {
     return fn;
 }
   
-export function makeUnindexedIterator(positions) {
+ function makeUnindexedIterator(positions) {
     let ndx = 0;
     const fn = () => ndx++;
     fn.reset = () => { ndx = 0; };
@@ -53,4 +53,4 @@ export function makeUnindexedIterator(positions) {
     return fn;
 }
 
-export const subtractVector2 = (a, b) => a.map((v, ndx) => v - b[ndx]);
+ const subtractVector2 = (a, b) => a.map((v, ndx) => v - b[ndx]);

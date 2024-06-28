@@ -427,7 +427,6 @@ async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition
 
   `;
 
-  //fs funzionante
   const fs = `
       precision highp float;
       varying vec3 v_normal;
@@ -453,7 +452,7 @@ async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition
       uniform vec3 u_ambientLight;
 
       void main () {
-        if (u_lightsEnabled == 1) { // Controlla se le luci sono abilitate
+        if (u_lightsEnabled == 1) { 
           if(u_shadowEnabled == 1){
             vec3 normal = normalize(v_normal) * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
             if(u_bumpEnabled == 1){
@@ -490,7 +489,6 @@ async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition
             gl_FragColor = vec4(effectiveDiffuse, effectiveOpacity);
           }
         } else {
-          // Se le luci sono disabilitate, rendi il pixel completamente nero
           gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
       }

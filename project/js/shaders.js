@@ -1,4 +1,4 @@
-export const vs = `
+ const vs = `
     attribute vec4 a_position;
     attribute vec3 a_normal;
     attribute vec3 a_tangent;
@@ -30,7 +30,7 @@ export const vs = `
   `;
 
   //fs funzionante
-export const fs = `
+ const fs = `
       precision highp float;
       varying vec3 v_normal;
       varying vec3 v_tangent;

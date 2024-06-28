@@ -1,4 +1,4 @@
-export function initializeUIControls() {
+ function initializeUIControls() {
     const fovInput = document.getElementById('fov');
     const fovValue = document.getElementById('fovLabel');
     fovInput.addEventListener('input', function () {
