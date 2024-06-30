@@ -148,10 +148,10 @@ let viewMatrixMain;
   
   // Variabili per memorizzare lo stato dei tasti
   const keys = {
-    w: false,
-    a: false,
-    s: false,
-    d: false,
+    t: false,
+    f: false,
+    g: false,
+    h: false,
     ArrowUp: false,
     ArrowDown: false,
     ArrowLeft: false,
@@ -193,6 +193,8 @@ let viewMatrixMain;
     
     button.addEventListener("mouseup", function(e) {
       keys[keyCode] = false;
+      sound_plane.pause();
+      turbo_plane.pause();
       updateCameraPosition();
     });
   
@@ -201,7 +203,6 @@ let viewMatrixMain;
       updateCameraPosition();
     });
   });
-  
   
   // Event listeners per il mouse
   canvas.addEventListener('mousedown', (event) => {
@@ -236,40 +237,44 @@ let viewMatrixMain;
     m4.xRotate(planeCamera, degToRad(-deltaY * rotationSpeed), planeCamera);
   }
   
-  
-  
   // Funzione per aggiornare la posizione della camera in base ai tasti premuti
   function updateCameraPosition() {
-    if (keys['w'] && (keys[' '] || buttonSprint)){
+    if (keys['t'] && (keys[' '] || buttonSprint)){
       m4.translate(cameraPositionMain, 0, 0, -velocity*3, cameraPositionMain);
-      //turbo_plane.play();
-      //sound_plane.pause();
-    }else if (keys['w']) {
+      turbo_plane.play();
+      sound_plane.pause();
+    }else if (keys['t']) {
       m4.translate(cameraPositionMain, 0, 0, -velocity, cameraPositionMain);
-      //sound_plane.play();
+      sound_plane.play();
     }
-    if (keys['a']) {
-      m4.translate(cameraPositionMain, -velocity, 0, 0, cameraPositionMain);
-    }
-    if (keys['a'] && (keys[' '] || buttonSprint)) {
+    if (keys['f'] && (keys[' '] || buttonSprint)) {
       m4.translate(cameraPositionMain, -velocity*3, 0, 0, cameraPositionMain);
+      turbo_plane.play();
+      sound_plane.pause();
+    }else if (keys['f']) {
+      m4.translate(cameraPositionMain, -velocity, 0, 0, cameraPositionMain);
+      sound_plane.play();
     }
-    if (keys['s']) {
-      m4.translate(cameraPositionMain, 0, 0, velocity, cameraPositionMain);
-    }
-    if (keys['s'] && (keys[' '] || buttonSprint)) {
+    if (keys['g'] && (keys[' '] || buttonSprint)) {
       m4.translate(cameraPositionMain, 0, 0, velocity*3, cameraPositionMain);
+      turbo_plane.play();
+      sound_plane.pause();
+    }else if (keys['g']) {
+      m4.translate(cameraPositionMain, 0, 0, velocity, cameraPositionMain);
+      sound_plane.play();
     }
-    if (keys['d']) {
-      m4.translate(cameraPositionMain, velocity, 0, 0, cameraPositionMain);
-    }
-    if (keys['d'] && (keys[' '] || buttonSprint)) {
+    if (keys['h'] && (keys[' '] || buttonSprint)) {
       m4.translate(cameraPositionMain, velocity*3, 0, 0, cameraPositionMain);
+      turbo_plane.play();
+      sound_plane.pause();
+    }else if (keys['h']) {
+      m4.translate(cameraPositionMain, velocity, 0, 0, cameraPositionMain);
+      sound_plane.play();
     }
+
     // comandi da tastiera
     if (keys['arrowup']) {
       m4.xRotate(cameraPositionMain, degToRad(0.1), cameraPositionMain);
-      
     }
     if (keys['arrowdown']) {
       m4.xRotate(cameraPositionMain, degToRad(-0.1), cameraPositionMain);
@@ -362,17 +367,17 @@ let viewMatrixMain;
       positionObj[0] = -x+30000;
       x=Math.floor(x);
       if(x>=49999 || x<=-49999) {
-        if(!state.positionBirdChange){
+        if(!positionBirdChange){
           if(rotatePosition[1]==90){
             rotatePosition[1]=-90
           }else{
             rotatePosition[1]=90
           }
-          state.positionBirdChange = true;
+          positionBirdChange = true;
         }
       }
       if(x<49998 && x>-49998){
-        state.positionBirdChange = false;
+        positionBirdChange = false;
       }
     }
   
@@ -390,17 +395,17 @@ let viewMatrixMain;
       positionObj[1] = y;
       y=Math.floor(y);
       if(y>=9999 || y<=-9999) {
-        if(!state.positionSupermanChange){
+        if(!positionSupermanChange){
           if(rotatePosition[2]==0){
             rotatePosition[2]=180
           }else{
             rotatePosition[2]=0
           }
-          state.positionSupermanChange = true;
+          positionSupermanChange = true;
         }
       }
       if(y<9998 && y>-9998){
-        state.positionSupermanChange = false;
+        positionSupermanChange = false;
       }
     }
     
@@ -420,9 +425,9 @@ let viewMatrixMain;
       // u_lightDirection: m4.normalize([-1, 3, 5]), // Vecchia luce
       u_lightDirection: m4.normalize([lightx, lighty, -lightz]), // Vecchia luce
       u_frontLightDirection: m4.normalize([10, 50, -1]), // Nuova luce frontale
-      u_lightsEnabled: state.lightsEnabled ? 1 : 0,
-      u_shadowEnabled: state.shadowEnabled ? 1 : 0,
-      u_bumpEnabled: state.bumpEnabled ? 1 : 0,
+      u_lightsEnabled: lightsEnabled ? 1 : 0,
+      u_shadowEnabled: shadowEnabled ? 1 : 0,
+      u_bumpEnabled: bumpEnabled ? 1 : 0,
       u_view: viewMatrixMain,
       u_projection: projection,
       u_viewWorldPosition: planeCamera,
@@ -432,9 +437,9 @@ let viewMatrixMain;
       viewMatrixMain = m4.inverse(planeCamera);
       sharedUniforms = {
         u_lightDirection: m4.normalize([-1, 3, 5]),
-        u_lightsEnabled: state.lightsEnabled ? 1 : 0, 
-        u_shadowEnabled: state.shadowEnabled ? 1 : 0,
-        u_bumpEnabled: state.bumpEnabled ? 1 : 0,
+        u_lightsEnabled: lightsEnabled ? 1 : 0, 
+        u_shadowEnabled: shadowEnabled ? 1 : 0,
+        u_bumpEnabled: bumpEnabled ? 1 : 0,
         u_view: viewMatrixMain,
         u_projection: projection,
         u_viewWorldPosition: planeCamera,

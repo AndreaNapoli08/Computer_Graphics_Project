@@ -10,14 +10,12 @@
  var planeCamera = m4.identity()
  var sound_plane = new Audio('audio/aereo.mp3');
  var turbo_plane = new Audio('audio/turbo.mp3');
+ var positionBirdChange = false;
+ var positionSupermanChange = false;
+ var lightsEnabled =  true;
+ var shadowEnabled = true;
+ var bumpEnabled = true;
 
- const state = {
-    positionBirdChange: false,
-    positionSupermanChange: false,
-    lightsEnabled: true,
-    shadowEnabled: true,
-    bumpEnabled: true,
-};
 
  var buttonSprint = false;
 // Inizializzazione dei controlli dell'interfaccia utente
