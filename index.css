@@ -121,6 +121,16 @@ p {
   font-weight: bold;
 }
 
+.loading {
+  position: absolute;
+  top: 9%;
+  left: 6.2%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 9999; /* Assicura che sia sopra il canvas */
+}
+
 /* Media query per schermi fino a 1024px */
 @media (max-width: 1700px) {
   canvas {

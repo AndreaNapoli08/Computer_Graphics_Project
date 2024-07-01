@@ -86,18 +86,18 @@
                             file mtl che contiene le configurazioni dell'oggetto e le varie immagini che vengono applicate come texture. </li>
                             <li><b><i class="text-gray-900">js</i></b>: contiene tutti gli script utilizzati. E' suddiviso in:
                                 <ul style="padding-left: 60px;" class="list-disc list-inside">
-                                    <li>main.js</li>
-                                    <li>objects3D.js</li>
-                                    <li>parsers.js</li>
-                                    <li>shaders.js</li>
-                                    <li>skybox.js</li>
-                                    <li>textures.js</li>
-                                    <li>uiControl.js</li>
+                                    <li><b class="text-gray-700">main.js:</b> contiene tutto il codice necessario per caricare gli oggetti 3D, applicare texture e ombre, gestire l'illuminazione, permettere l'interazione con la scena tramite mouse e tastiera, e animare gli oggetti.</li>
+                                    <li><b class="text-gray-700">objects3D.js:</b> contiene funzioni utilizzate per generare tangenti e gestire gli indici dei vertici per oggetti 3D nel contesto di un'applicazione WebGL. Queste funzionalità sono essenziali per il rendering corretto delle superfici degli oggetti 3D, specialmente quando si applicano texture e mappe normali.</li>
+                                    <li><b class="text-gray-700">parsers.js:</b> contiene funzioni per il parsing di file OBJ e MTL, utilizzati per descrivere geometrie 3D e materiali; inoltre permette di importare modelli 3D e materiali da file OBJ e MTL</li>
+                                    <li><b class="text-gray-700">shaders.js:</b> contiene il codice per gli shader vertex e fragment, utilizzati per la pipeline di rendering in WebGL. Questi shader sono scritti in GLSL (OpenGL Shading Language) e svolgono ruoli fondamentali nel determinare la posizione e l'aspetto dei vertici e dei pixel di un modello 3D.</li>
+                                    <li><b class="text-gray-700">skybox.js:</b> viene utilizzato per creare e visualizzare un skybox in un contesto WebGL. Questo script gestisce il rendering di un cubo mappato con sei texture diverse, una per ciascuna faccia del cubo.</li>
+                                    <li><b class="text-gray-700">textures.js:</b> contiene funzioni utili per creare e gestire le texture, ovvero immagini che vengono applicate alle superfici degli oggetti 3D.</li>
+                                    <li><b class="text-gray-700">uiControls.js:</b> gestisce i controlli dell'interfaccia utente per modificare parametri come il campo visivo (FOV), le coordinate della luce e abilitare/disabilitare effetti come le luci, le ombre e il bump mapping.</li>
                                 </ul>
                             </li>
                             <li><b><i class="text-gray-900">index.html</i></b>: è il file principale che contiene la struttura della pagina e il collegamento a tutti gli script e al foglio di stile. </li>
                             <li><b><i class="text-gray-900">index.css</i></b>: è stato utilizzato per rendere l'interfaccia grafica della pagina principale più piacevole.</li>
-                            <li><b><i class="text-gray-900">index.js</i></b>: </li>
+                            <li><b><i class="text-gray-900">index.js</i></b>: è il file principale del progetto di e contiene l'inizializzazione delle variabili globali, il caricamento degli oggetti 3D e la configurazione iniziale della scena.</li>
                         </ul>
                     </li>
                 </ul>

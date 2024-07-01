@@ -15,12 +15,32 @@
  var lightsEnabled =  true;
  var shadowEnabled = true;
  var bumpEnabled = true;
-
-
  var buttonSprint = false;
+ 
 // Inizializzazione dei controlli dell'interfaccia utente
 initializeUIControls();
 
+function hideLoading(){
+    console.log("ciao")
+    const loadingMessage = document.getElementById('loadingMessage');
+    loadingMessage.style.display = 'none';
+
+    // Mostra il canvas e avvia la scena
+    const canvas = document.getElementById('canvas');
+    canvas.style.display = 'block';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    var loadingText = document.getElementById("loadingMessage");
+    var canvas = document.getElementById("canvasdiv");
+  
+    function hideLoadingText() {
+      loadingText.style.display = "none";
+      canvas.style.display = "flex";
+    }
+
+    setTimeout(hideLoadingText, 3000);
+});
 
 // percorso anelli
 loadObj("./object/ring/ring.obj", 3000, [0, 2000, -20000], 0, [0, 120, 0], false, 10, false, false, false, false);
