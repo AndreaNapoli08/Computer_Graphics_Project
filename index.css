@@ -197,4 +197,14 @@ p {
   canvas {
     width: 100%;
   }
+  
+  .loading {
+    position: absolute;
+    top: 14%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 9999; /* Assicura che sia sopra il canvas */
+  }
 }
