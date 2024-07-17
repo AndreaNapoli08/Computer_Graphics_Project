@@ -1,11 +1,9 @@
  function parseOBJ(text) {
-    // because indices are base 1 let's just fill in the 0th data
     const objPositions = [[0, 0, 0]];
     const objTexcoords = [[0, 0]];
     const objNormals = [[0, 0, 0]];
     const objColors = [[0, 0, 0]];
   
-    // same order as `f` indices
     const objVertexData = [
       objPositions,
       objTexcoords,
@@ -13,7 +11,6 @@
       objColors,
     ];
   
-    // same order as `f` indices
     let webglVertexData = [
       [],   // positions
       [],   // texcoords
@@ -31,8 +28,6 @@
     const noop = () => { };
   
     function newGeometry() {
-      // If there is an existing geometry and it's
-      // not empty then start a new one.
       if (geometry && geometry.data.position.length) {
         geometry = undefined;
       }
@@ -74,8 +69,6 @@
         const objIndex = parseInt(objIndexStr);
         const index = objIndex + (objIndex >= 0 ? 0 : objVertexData[i].length);
         webglVertexData[i].push(...objVertexData[i][index]);
-        // if this is the position index (index 0) and we parsed
-        // vertex colors then copy the vertex colors to the webgl vertex color data
         if (i === 0 && objColors.length > 1) {
           geometry.data.color.push(...objColors[index]);
         }
@@ -84,7 +77,7 @@
   
     const keywords = {
       v(parts) {
-        // if there are more than 3 values here they are vertex colors
+        // Se ci sono più di 3 valori, si tratta dei colori dei vertici
         if (parts.length > 3) {
           objPositions.push(parts.slice(0, 3).map(parseFloat));
           objColors.push(parts.slice(3).map(parseFloat));
@@ -96,7 +89,6 @@
         objNormals.push(parts.map(parseFloat));
       },
       vt(parts) {
-        // should check for missing v and extra w?
         objTexcoords.push(parts.map(parseFloat));
       },
       f(parts) {
@@ -108,10 +100,8 @@
           addVertex(parts[tri + 2]);
         }
       },
-      s: noop,    // smoothing group
+      s: noop,  
       mtllib(parts, unparsedArgs) {
-        // the spec says there can be multiple filenames here
-        // but many exist with spaces in a single filename
         materialLibs.push(unparsedArgs);
       },
       usemtl(parts, unparsedArgs) {
@@ -143,13 +133,12 @@
       const parts = line.split(/\s+/).slice(1);
       const handler = keywords[keyword];
       if (!handler) {
-        console.warn('unhandled keyword:', keyword);  // eslint-disable-line no-console
+        console.warn('unhandled keyword:', keyword); 
         continue;
       }
       handler(parts, unparsedArgs);
     }
   
-    // remove any arrays that have no entries.
     for (const geometry of geometries) {
       geometry.data = Object.fromEntries(
         Object.entries(geometry.data).filter(([, array]) => array.length > 0));
@@ -162,7 +151,6 @@
 }
   
  function parseMapArgs(unparsedArgs) {
-  // TODO: handle options
   return unparsedArgs;
 }
   
@@ -204,7 +192,7 @@
       const parts = line.split(/\s+/).slice(1);
       const handler = keywords[keyword];
       if (!handler) {
-        console.warn('unhandled keyword:', keyword);  // eslint-disable-line no-console
+        console.warn('unhandled keyword:', keyword); 
         continue;
       }
       handler(parts, unparsedArgs);

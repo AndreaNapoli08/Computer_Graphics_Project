@@ -12,19 +12,15 @@ function main() {
   // setup GLSL program
   var program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-3d", "fragment-shader-3d"]);
 
-  // look up where the vertex data needs to go.
   var positionLocation = gl.getAttribLocation(program, "a_position");
 
-  // lookup uniforms
   var skyboxLocation = gl.getUniformLocation(program, "u_skybox");
   var viewDirectionProjectionInverseLocation =
       gl.getUniformLocation(program, "u_viewDirectionProjectionInverse");
 
-  // Create a buffer for positions
+  // creare un buffer per le posizioni
   var positionBuffer = gl.createBuffer();
-  // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  // Put the positions in the buffer
   setGeometry(gl);
 
   // Create a texture.
@@ -61,7 +57,6 @@ function main() {
   faceInfos.forEach((faceInfo) => {
     const {target, url} = faceInfo;
 
-    // Upload the canvas to the cubemap face.
     const level = 0;
     const internalFormat = gl.RGBA;
     const width = 512;
@@ -69,19 +64,16 @@ function main() {
     const format = gl.RGBA;
     const type = gl.UNSIGNED_BYTE;
 
-    // setup each face so it's immediately renderable
     gl.texImage2D(target, level, internalFormat, width, height, 0, format, type, null);
 
-    // Asynchronously load an image
     const image = new Image();
     image.src = url;
     image.addEventListener('load', function() {
-      // Now that the image has loaded make copy it to the texture.
       gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
       gl.texImage2D(target, level, internalFormat, format, type, image);
       gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
 
-      // After all images are loaded, draw the scene
+      // dopo il caricamento delle immagini, si disegna la scena
       drawScene();
     });
   });
@@ -98,51 +90,42 @@ function main() {
 
   var fieldOfViewRadians = degToRad(60);
   var cameraYRotationRadians = degToRad(50);
-  var cameraXRotationRadians = degToRad(-20); // Aggiunta variabile per la rotazione sull'asse X
+  var cameraXRotationRadians = degToRad(-20); 
 
   requestAnimationFrame(drawScene);
 
-  // Draw the scene.
   function drawScene() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
 
-    // Tell WebGL how to convert from clip space to pixels
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
     gl.enable(gl.CULL_FACE);
     gl.enable(gl.DEPTH_TEST);
 
-    // Clear the canvas AND the depth buffer.
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // Tell it to use our program (pair of shaders)
     gl.useProgram(program);
 
-    // Turn on the position attribute
     gl.enableVertexAttribArray(positionLocation);
 
-    // Bind the position buffer.
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
-    // Tell the position attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    var size = 2;          // 2 components per iteration
-    var type = gl.FLOAT;   // the data is 32bit floats
-    var normalize = false; // don't normalize the data
-    var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-    var offset = 0;        // start at the beginning of the buffer
+    var size = 2;       
+    var type = gl.FLOAT;
+    var normalize = false; 
+    var stride = 0;        
+    var offset = 0;       
+    
     gl.vertexAttribPointer(
         positionLocation, size, type, normalize, stride, offset);
 
-    // Compute the projection matrix
     var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     var projectionMatrix =
         m4.perspective(fieldOfViewRadians, aspect, 1, 2000);
 
-    // Compute the camera's matrix using look at.
     var cameraMatrix = m4.yRotate(m4.identity(), cameraYRotationRadians);
     cameraMatrix = m4.xRotate(cameraMatrix, cameraXRotationRadians);
 
-    // Make a view matrix from the camera matrix.
     var viewMatrix = m4.inverse(cameraMatrix);
 
     var viewDirectionProjectionMatrix =
@@ -155,13 +138,12 @@ function main() {
         viewDirectionProjectionInverseLocation, false,
         viewDirectionProjectionInverseMatrix);
 
-    // Tell the shader to use texture unit 0 for u_skybox
+    // indica allo shader di utilizzare l'unità texture 0 per u_skybox
     gl.uniform1i(skyboxLocation, 0);
 
-    // let our quad pass the depth test at 1.0
     gl.depthFunc(gl.LEQUAL);
 
-    // Draw the geometry.
+    // disegna la geometria
     gl.drawArrays(gl.TRIANGLES, 0, 1 * 6);
 
     requestAnimationFrame(drawScene);
@@ -169,7 +151,6 @@ function main() {
 
 }
 
-// Fill the buffer with the values that define a quad.
 function setGeometry(gl) {
   var positions = new Float32Array(
     [

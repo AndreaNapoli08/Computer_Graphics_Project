@@ -10,7 +10,7 @@ let viewMatrixMain;
       return;
     }
   
-    // compiles and links the shaders, looks up attribute and uniform locations
+    // collega gli shaders, ricerca le posizioni degli attributi e delle uniformi
     const meshProgramInfo = webglUtils.createProgramInfo(gl, [vs, fs]);
   
     const response = await fetch(objHref);
@@ -29,7 +29,7 @@ let viewMatrixMain;
       defaultNormal: create1PixelTexture(gl, [127, 127, 255, 0]),
     };
   
-    // load texture for materials
+    // caricamento delle texture per i materiali
     for (const material of Object.values(materials)) {
       Object.entries(material)
         .filter(([key]) => key.endsWith('Map'))
@@ -44,7 +44,6 @@ let viewMatrixMain;
         });
     }
   
-    // hack the materials so we can see the specular map
     Object.values(materials).forEach(m => {
       m.shininess = 25;
       m.specular = [3, 2, 1];
@@ -65,20 +64,15 @@ let viewMatrixMain;
   
       if (data.color) {
         if (data.position.length === data.color.length) {
-          // it's 3. The our helper library assumes 4 so we need
-          // to tell it there are only 3.
           data.color = { numComponents: 3, data: data.color };
         }
       } else {
-        // there are no vertex colors so just use constant white
         data.color = { value: [1, 1, 1, 1] };
       }
   
-      // generate tangents if we have the data to do so.
       if (data.texcoord && data.normal) {
         data.tangent = generateTangents(data.position, data.texcoord);
       } else {
-        // There are no tangents
         data.tangent = { value: [1, 0, 0] };
       }
   
@@ -87,12 +81,9 @@ let viewMatrixMain;
       }
   
       if (!data.normal) {
-        // we probably want to generate normals if there are none
         data.normal = { value: [0, 0, 1] };
       }
   
-      // create a buffer for each array by calling
-      // gl.createBuffer, gl.bindBuffer, gl.bufferData
       const bufferInfo = webglUtils.createBufferInfoFromArrays(gl, data);
       return {
         material: {
@@ -131,7 +122,8 @@ let viewMatrixMain;
   
     const extents = getGeometriesExtents(obj.geometries);
     const range = m4.subtractVectors(extents.max, extents.min);
-    // amount to move the object so its center is at the origin
+
+    // spostare l'oggetto in modo il centro si trovi nell'origine
     const objOffset = m4.scaleVector(
       m4.addVectors(
         extents.min,
@@ -339,7 +331,7 @@ let viewMatrixMain;
     if(superman){
       animateSuperman();
     }
-    time *= rotation;  // convert to seconds
+    time *= rotation; 
     
     function calculateMovement(angle, radius) {
       let x = Math.cos(angle) * radius;
@@ -418,13 +410,11 @@ let viewMatrixMain;
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const projection = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
     
-    // const up = [0, 1, 0];
-    var sharedUniforms
+    var sharedUniforms;
     viewMatrixMain = m4.inverse(cameraPositionMain);
     sharedUniforms = {
-      // u_lightDirection: m4.normalize([-1, 3, 5]), // Vecchia luce
-      u_lightDirection: m4.normalize([lightx, lighty, -lightz]), // Vecchia luce
-      u_frontLightDirection: m4.normalize([10, 50, -1]), // Nuova luce frontale
+      u_lightDirection: m4.normalize([lightx, lighty, -lightz]), 
+      u_frontLightDirection: m4.normalize([10, 50, -1]), 
       u_lightsEnabled: lightsEnabled ? 1 : 0,
       u_shadowEnabled: shadowEnabled ? 1 : 0,
       u_bumpEnabled: bumpEnabled ? 1 : 0,
@@ -450,11 +440,8 @@ let viewMatrixMain;
   
     gl.useProgram(meshProgramInfo.program);
   
-    // calls gl.uniform
     webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
     
-    // compute the world matrix once since all parts
-    // are at the same space.
     let u_world = m4.yRotation(time);
     u_world = m4.translate(u_world, ...objOffset);
   
@@ -467,13 +454,10 @@ let viewMatrixMain;
   
     
     for (const { bufferInfo, material } of parts) {
-      // calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
       webglUtils.setBuffersAndAttributes(gl, meshProgramInfo, bufferInfo);
-      // calls gl.uniform
       webglUtils.setUniforms(meshProgramInfo, {
         u_world,
       }, material);
-      // calls gl.drawArrays or gl.drawElements
       webglUtils.drawBufferInfo(gl, bufferInfo);
     }
   

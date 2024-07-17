@@ -29,7 +29,6 @@
 
   `;
 
-  //fs funzionante
  const fs = `
       precision highp float;
       varying vec3 v_normal;
