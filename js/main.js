@@ -1,7 +1,7 @@
 
 
 let viewMatrixMain;
- async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition, plane, velocity, spaceShuttle, bird, airBaloon) {
+ async function loadObj(objHref, resizeObj, positionObj, rotation, rotatePosition, plane, velocity, spaceShuttle, bird, airBaloon, superman) {
   // Get A WebGL context
     /** @type {HTMLCanvasElement} */
     const canvas = document.querySelector("#canvas");
@@ -329,6 +329,9 @@ let viewMatrixMain;
       animateAirBaloon();
     }
 
+    if(superman){
+      animateSuperman();
+    }
     time *= rotation; 
     
     function calculateMovement(angle, radius) {
@@ -376,6 +379,27 @@ let viewMatrixMain;
       let radius = 15000;
       let [y,z] = calculateMovement(angle, radius);
       positionObj[1] = y;
+    }
+
+    function animateSuperman() {
+      let angle = time * 0.001;
+      let radius = 10000;
+      let [y,z] = calculateMovement(angle, radius);
+      positionObj[1] = y;
+      y=Math.floor(y);
+      if(y>=9999 || y<=-9999) {
+        if(!positionSupermanChange){
+          if(rotatePosition[2]==0){
+            rotatePosition[2]=180
+          }else{
+            rotatePosition[2]=0
+          }
+          positionSupermanChange = true;
+        }
+      }
+      if(y<9998 && y>-9998){
+        positionSupermanChange = false;
+      }
     }
     
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
