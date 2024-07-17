@@ -192,7 +192,6 @@
       const parts = line.split(/\s+/).slice(1);
       const handler = keywords[keyword];
       if (!handler) {
-        console.warn('unhandled keyword:', keyword); 
         continue;
       }
       handler(parts, unparsedArgs);

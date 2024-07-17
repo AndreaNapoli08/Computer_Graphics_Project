@@ -59,8 +59,8 @@ function main() {
 
     const level = 0;
     const internalFormat = gl.RGBA;
-    const width = 512;
-    const height = 512;
+    const width = 1024;
+    const height = 1024;
     const format = gl.RGBA;
     const type = gl.UNSIGNED_BYTE;
 
@@ -73,16 +73,10 @@ function main() {
       gl.texImage2D(target, level, internalFormat, format, type, image);
       gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
 
-      // dopo il caricamento delle immagini, si disegna la scena
-      drawScene();
     });
   });
   gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
   gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-
-  function radToDeg(r) {
-    return r * 180 / Math.PI;
-  }
 
   function degToRad(d) {
     return d * Math.PI / 180;

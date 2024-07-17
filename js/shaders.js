@@ -37,7 +37,7 @@
       varying vec2 v_texcoord;
       varying vec4 v_color;
 
-      uniform int u_lightsEnabled; // Nuova uniforma per abilitare/disabilitare le luci
+      uniform int u_lightsEnabled; 
       uniform int u_shadowEnabled;
       uniform int u_bumpEnabled;
 
