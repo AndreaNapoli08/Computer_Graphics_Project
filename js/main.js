@@ -422,7 +422,6 @@ let viewMatrixMain;
       u_bumpEnabled: bumpEnabled ? 1 : 0,
       u_view: viewMatrixMain,
       u_projection: projection,
-      //u_viewWorldPosition: planeCamera,
     }; 
   
     if(plane){
@@ -435,7 +434,6 @@ let viewMatrixMain;
         u_bumpEnabled: bumpEnabled ? 1 : 0,
         u_view: viewMatrixMain,
         u_projection: projection,
-        //u_viewWorldPosition: planeCamera,
       };
     } 
     
