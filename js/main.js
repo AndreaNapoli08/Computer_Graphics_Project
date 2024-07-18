@@ -415,30 +415,30 @@ let viewMatrixMain;
     viewMatrixMain = m4.inverse(cameraPositionMain);
     sharedUniforms = {
       u_lightDirection: m4.normalize([lightx, lighty, -lightz]), 
+      u_ambientLight: m4.normalize([0, 0, 0]),
       u_frontLightDirection: m4.normalize([10, 50, -1]), 
       u_lightsEnabled: lightsEnabled ? 1 : 0,
       u_shadowEnabled: shadowEnabled ? 1 : 0,
       u_bumpEnabled: bumpEnabled ? 1 : 0,
       u_view: viewMatrixMain,
       u_projection: projection,
-      u_viewWorldPosition: planeCamera,
+      //u_viewWorldPosition: planeCamera,
     }; 
   
     if(plane){
       viewMatrixMain = m4.inverse(planeCamera);
       sharedUniforms = {
         u_lightDirection: m4.normalize([-1, 3, 5]),
+        u_ambientLight: m4.normalize([0, 0, 0]),
         u_lightsEnabled: lightsEnabled ? 1 : 0, 
         u_shadowEnabled: shadowEnabled ? 1 : 0,
         u_bumpEnabled: bumpEnabled ? 1 : 0,
         u_view: viewMatrixMain,
         u_projection: projection,
-        u_viewWorldPosition: planeCamera,
+        //u_viewWorldPosition: planeCamera,
       };
     } 
     
-  
-  
     gl.useProgram(meshProgramInfo.program);
   
     webglUtils.setUniforms(meshProgramInfo, sharedUniforms);

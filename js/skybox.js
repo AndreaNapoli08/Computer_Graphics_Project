@@ -15,6 +15,7 @@ function main() {
   var positionLocation = gl.getAttribLocation(program, "a_position");
 
   var skyboxLocation = gl.getUniformLocation(program, "u_skybox");
+  
   var viewDirectionProjectionInverseLocation =
       gl.getUniformLocation(program, "u_viewDirectionProjectionInverse");
 
