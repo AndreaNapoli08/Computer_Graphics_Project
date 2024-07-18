@@ -402,15 +402,18 @@ let viewMatrixMain;
       }
     }
     
+    // resize del canvas e impostazioni iniziali
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(0, 0, 0, 1);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.enable(gl.DEPTH_TEST);
     
+    // calcolo della matrice di proiezione
     const fieldOfViewRadians = degToRad(fov);
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const projection = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
     
+    // Impostazioni di illuminazione e vista:
     var sharedUniforms;
     viewMatrixMain = m4.inverse(cameraPositionMain);
     sharedUniforms = {
@@ -424,6 +427,7 @@ let viewMatrixMain;
       u_projection: projection,
     }; 
   
+    // gestione dell'aereo
     if(plane){
       viewMatrixMain = m4.inverse(planeCamera);
       sharedUniforms = {
@@ -437,6 +441,7 @@ let viewMatrixMain;
       };
     } 
     
+    // rendering degli oggetti
     gl.useProgram(meshProgramInfo.program);
   
     webglUtils.setUniforms(meshProgramInfo, sharedUniforms);
