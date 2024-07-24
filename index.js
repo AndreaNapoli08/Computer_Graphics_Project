@@ -20,12 +20,7 @@
 // Inizializzazione dei controlli dell'interfaccia utente
 initializeUIControls();
 
-function hideLoading(){
-    const loadingMessage = document.getElementById('loadingMessage');
-    loadingMessage.style.display = 'none';
-    const canvas = document.getElementById('canvas');
-    canvas.style.display = 'block';
-}
+
 
 document.addEventListener("DOMContentLoaded", function () {
     var loadingText = document.getElementById("loadingMessage");
