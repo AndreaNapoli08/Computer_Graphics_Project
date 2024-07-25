@@ -130,7 +130,7 @@ let viewMatrixMain;
         m4.scaleVector(range, 0.5)),
       -1);
     const radius = m4.length(range) * 0.5;
-  
+    
     const zNear = radius / 100;
     const zFar = radius * 1000000;
   
@@ -431,7 +431,7 @@ let viewMatrixMain;
     if(plane){
       viewMatrixMain = m4.inverse(planeCamera);
       sharedUniforms = {
-        u_lightDirection: m4.normalize([-1, 3, 5]),
+        u_lightDirection: m4.normalize([lightx, lighty, -lightz]),
         u_ambientLight: m4.normalize([0, 0, 0]),
         u_lightsEnabled: lightsEnabled ? 1 : 0, 
         u_shadowEnabled: shadowEnabled ? 1 : 0,

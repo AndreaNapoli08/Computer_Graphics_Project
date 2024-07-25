@@ -77,7 +77,6 @@
   
     const keywords = {
       v(parts) {
-        // Se ci sono più di 3 valori, si tratta dei colori dei vertici
         if (parts.length > 3) {
           objPositions.push(parts.slice(0, 3).map(parseFloat));
           objColors.push(parts.slice(3).map(parseFloat));
